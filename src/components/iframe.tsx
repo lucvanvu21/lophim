@@ -11,9 +11,10 @@ import JWPlayer from '@jwplayer/jwplayer-react';
 import TopMovies from './topMovies';
 import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 import { set } from 'lodash';
+import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 
 const listServer = [{ name: 'Server 1' }, { name: 'Server 2' }, { name: 'server 3' }];
-const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot: any[] }) => {
+const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot?: any[] }) => {
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState<number | null>(0);
   const [activeServer, setActiveServer] = useState<number | null>(0);
   const currentEpisodeUrl = useRef<string | null>(null);
@@ -43,7 +44,7 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot: any[] }) =
   const handleServer = async (index: number, slug?: string) => {
     setLoading(true);
     if (index === 1) {
-      const res = await moviesRequestApiClient.getNguonC(slug);
+      const res = await tmdbApiClient.getNguonCURL(slug);
       // console.log('---->res:', res);
       if (res.status === 'error') {
         alert('Server đang bảo trì, vui lòng chọn server khác');
@@ -148,6 +149,7 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot: any[] }) =
                   // setLoading(true);
                 }}
                 color={activeServer === index ? 'primary' : 'inherit'}
+                key={item.name}
               >
                 {item.name}
               </Button>
@@ -245,7 +247,6 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot: any[] }) =
 
         {/* </Grid> */}
         <Grid size={{ xs: 12, lg: 3 }} sx={{ display: { xs: 'none', lg: res?.movie?.episode_total > 1 ? 'block' : 'none' } }}>
-          {' '}
           <Box sx={{ marginTop: '1rem' }}>
             <Typography
               variant="h4"

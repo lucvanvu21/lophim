@@ -30,10 +30,10 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
   // console.log('---->slug:', slug);
 
   const data = await moviesRequestApi.getMoviesBySlug(slug);
-  if (data.error) {
+  if (data.status === false) {
     notFound();
   }
-  const movies: any = data?.data;
+  const movies: any = data?.movie;
   // console.log('---->movies:', movies);
   const url = process.env.NEXT_PUBLIC_BASE_URL + '/chi-tiet-phim/' + slug;
   // console.log('---->movies:', movies);
@@ -64,12 +64,13 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 export async function generateStaticParams() {
   const le = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 10);
   const tv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 10);
-  const movies = [...le?.data.items, ...tv?.data.items];
+  // const movies = [...le?.data.items, ...tv?.data.items];
   // console.log('---->movies:', movies);
+  const movies = [...le?.data.items];
   // console.log('---->movies:', movies);
-  // if (!Array.isArray(movies?.data?.result)) {
-  //   throw new Error('Expected an array for results');
-  // }
+  if (!Array.isArray(movies)) {
+    throw new Error('Expected an array for results');
+  }
   return movies?.map((movie: any) => ({ slug: movie.slug }));
 }
 
@@ -81,6 +82,7 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
 
   // console.log('---->slug:', slug);
   const res = await moviesRequestApi.getMoviesBySlug(slug);
+  // console.log('---->res:', res);
   // console.log('---->res:', res);
   if (res.error) {
     notFound();

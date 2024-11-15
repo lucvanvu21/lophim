@@ -63,14 +63,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFSNMJ35Z" strategy="afterInteractive"></Script>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-QZXHVDDF4D" strategy="afterInteractive"></Script>
         <Script id="google-analytics" strategy="afterInteractive">
           {`
     window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-MBFSNMJ35Z');
+  gtag('config', 'G-QZXHVDDF4D');
     `}
         </Script>
       </head>

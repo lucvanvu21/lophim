@@ -12,6 +12,7 @@ import CaraselMain from '@/components/caraselMain';
 import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 import TopMovies from '@/components/topMovies';
 import MoviesCard from '@/components/listmovies/moviesCard';
+import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 
 export const metadata: Metadata = {
   title: 'Xem phim online chất lượng cao FullHD Vietsub | Phim tốc độ',
@@ -25,10 +26,7 @@ export default async function Home() {
   const resMovies = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
   const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 12);
   const resMoiPhatHanh = await moviesRequestApi.getMoviesUpdateForUser('phim-moi-cap-nhat', 1, 16);
-  // const resMovies2 = await moviesRequestApi.getAllMoviesForUser('phim-le', 2, 12);
-  // const res4Top = await moviesRequestApi.getTopMoviesForUser(1, 10);
-  const day = 'day';
-  const hot = await moviesRequestApiClient.getTop(day);
+  const hot = await tmdbApiClient.getTop2('day');
 
   // console.log('---------sdfsdf', res3Hot);
 
@@ -63,7 +61,7 @@ export default async function Home() {
             Phim Hoạt Hình
           </Typography>
           {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={resHoatHinh?.data?.items} />
+          <EmblaCarouselz movies={resHoatHinh?.data?.items} autoPlay={true}/>
         </Box>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 4 }}>
           <Grid size={{ xs: 12, md: 9 }}>
@@ -107,7 +105,7 @@ export default async function Home() {
                 </Typography>
               </Box>
 
-              <MoviesList movies={movies} />
+              <MoviesList movies={movies} column={true}/>
             </Box>
             <Divider />
             <Box sx={{ marginBottom: '1rem', marginTop: '1rem' }}>
@@ -150,7 +148,7 @@ export default async function Home() {
                   </Link>
                 </Typography>
               </Box>
-              <MoviesList movies={tv} />
+              <MoviesList movies={tv} column={true} />
             </Box>
           </Grid>
           <Grid size={{ xs: 12, md: 3 }}>

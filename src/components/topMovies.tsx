@@ -1,6 +1,7 @@
 'use client';
 
 import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
+import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -15,8 +16,20 @@ const TopMovies = ({ hot }: { hot: any }) => {
   const [data, setData] = useState<any[]>(hot);
   const [active, setActive] = useState<number>(0);
   const handleGetTop = async (key: string) => {
-    const res = await moviesRequestApiClient.getTop(key);
-    setData(res);
+    try {
+      const res = await fetch(`/api/gettop?q=${key}`, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      if (!res.ok) {
+        throw new Error('error');
+      }
+      const data = await res.json();
+      setData(data);
+    } catch (error) {
+      throw new Error(error);
+    }
   };
   return (
     <>

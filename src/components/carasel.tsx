@@ -35,7 +35,7 @@ const ImageComponent = ({ item, getImageSrc }) => {
   );
 };
 
-const EmblaCarouselz = ({ movies }) => {
+const EmblaCarouselz = ({ movies, autoPlay }: { movies: any; autoPlay?: boolean }) => {
   // const [mounted, setMounted] = useState(false);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
@@ -66,15 +66,17 @@ const EmblaCarouselz = ({ movies }) => {
     emblaApi.on('select', () => onSelect(emblaApi));
     emblaApi.on('reInit', () => onSelect(emblaApi));
 
-    const autoplay = () => {
-      if (emblaApi) emblaApi.scrollNext();
-    };
+    if (autoPlay) {
+      const autoplay = () => {
+        if (emblaApi) emblaApi.scrollNext();
+      };
 
-    autoplayInterval.current = setInterval(autoplay, 5000);
+      autoplayInterval.current = setInterval(autoplay, 5000);
 
-    return () => {
-      if (autoplayInterval.current) clearInterval(autoplayInterval.current);
-    };
+      return () => {
+        if (autoplayInterval.current) clearInterval(autoplayInterval.current);
+      };
+    }
     // setMounted(true);
   }, [emblaApi, onSelect]);
 

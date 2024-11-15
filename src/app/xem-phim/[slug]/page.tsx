@@ -7,19 +7,20 @@ import { notFound } from 'next/navigation';
 import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 import EmblaCarouselz from '@/components/carasel';
 import TopMovies from '@/components/topMovies';
+import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 
-export async function generateStaticParams() {
-  const le = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 10);
-  const tv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 10);
-  const movies = [...le?.data.items, ...tv?.data.items];
-  return movies?.map((movie: any) => ({ slug: movie.slug }));
-}
+// export async function generateStaticParams() {
+//   const le = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 10);
+//   const tv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 10);
+//   const movies = [...le?.data.items, ...tv?.data.items];
+//   return movies?.map((movie: any) => ({ slug: movie.slug }));
+// }
 const Watch = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const res = await moviesRequestApi.getMoviesBySlug(slug);
   const moiPhatHanh = await moviesRequestApi.getMoviesUpdateForUser('phim-moi-cap-nhat', 1, 16);
   const day = 'day';
-  const hot = await moviesRequestApiClient.getTop(day);
+  const hot = await tmdbApiClient.getTop(day);
   if (res.error) {
     notFound();
   }

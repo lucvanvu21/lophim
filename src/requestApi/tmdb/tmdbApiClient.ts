@@ -32,4 +32,54 @@ export const tmdbApiClient = {
       country: res.origin_country.map((item: any) => item).join(', '),
     };
   },
+  getTop: async (day: string) => {
+    const baseUrl = typeof window === 'undefined' ? process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' : ''; // Nếu là client, dùng đường dẫn tương đối
+    const res = await fetch(`${baseUrl}/api/gettop?q=${day}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ day }),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  getNguonCURL: async (slug: string) => {
+    const res = await fetch(`/api/get-nguon-c?slug=${slug}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    // console.log('----->res', res);
+    const data = await res.json();
+    // console.log('----->data', data);
+    if (data.status === 'error') {
+      return data;
+    }
+    const list = data?.movie?.episodes.map(item => {
+      if (item.server_name.includes('Vietsub')) {
+        return item.items;
+      }
+    });
+    // console.log('----->list', list);
+    return list[0];
+  },
+  getTop2: async (day: string) => {
+    try {
+      const res = await fetch(`https://api.muaspinre.com/api/movies/top-movies?period=${day}`, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      if (!res.ok) {
+        throw new Error('error');
+      }
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
