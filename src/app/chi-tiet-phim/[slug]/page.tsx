@@ -84,10 +84,13 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
   const res = await moviesRequestApi.getMoviesBySlug(slug);
   // console.log('---->res:', res);
   // console.log('---->res:', res);
+  if (res.status === false) {
+    return <>Phim đang được cập nhật , bạn có thể quay lại sau !</>;
+  }
   if (res.error) {
     notFound();
   }
-  const movies: any = res?.movie;
+  let movies: any = res?.movie;
 
   // const type = movies.type === 'series' ? 'tv' : 'movie';
   const actor = await tmdbApi.getActor(movies?.tmdb?.type, movies?.tmdb?.id);
@@ -299,7 +302,7 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
                 <Typography alignContent="center" sx={{ color: '#ddd', fontStyle: 'italic' }}>
                   Diễn Viên :
                 </Typography>
-                <Box sx={{ display: 'flex',mt:2 }}>
+                <Box sx={{ display: 'flex', mt: 2 }}>
                   {/* <AutoPlay movies={actor} /> */}
                   {actor && actor.length > 0 ? (
                     <EmblaCarouselz movies={actor} />

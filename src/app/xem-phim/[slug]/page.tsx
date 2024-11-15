@@ -20,7 +20,7 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
   const res = await moviesRequestApi.getMoviesBySlug(slug);
   const moiPhatHanh = await moviesRequestApi.getMoviesUpdateForUser('phim-moi-cap-nhat', 1, 16);
   const day = 'day';
-  const hot = await tmdbApiClient.getTop(day);
+  const hot = await tmdbApiClient.getTop2(day);
   if (res.error) {
     notFound();
   }
