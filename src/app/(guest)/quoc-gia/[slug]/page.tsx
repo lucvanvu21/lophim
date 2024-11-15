@@ -6,7 +6,7 @@ import React from 'react';
 const Country = async ({ params, searchParams }: { params: { slug: string }; searchParams: { page: number } }) => {
   // console.log('---->searchParams:', searchParams);
   const page = searchParams.page || 1;
-  const res = await moviesRequestApi.getMoviesByGenre(undefined, page, 18,params.slug);
+  const res = await moviesRequestApi.getMoviesByGenre(undefined, page, 24,params.slug);
 
   // console.log('---->res---genres:', res);
   return (

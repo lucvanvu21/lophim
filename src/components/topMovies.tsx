@@ -3,6 +3,7 @@
 import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 import { Box, Button, Typography } from '@mui/material';
+import { get } from 'lodash';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -17,16 +18,10 @@ const TopMovies = ({ hot }: { hot: any }) => {
   const [active, setActive] = useState<number>(0);
   const handleGetTop = async (key: string) => {
     try {
-      const res = await fetch(`/api/gettop?q=${key}`, {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      });
-      if (!res.ok) {
-        throw new Error('error');
-      }
-      const data = await res.json();
-      setData(data);
+      const res = await tmdbApiClient.getTop2(key)
+      // console.log(res);
+    
+      setData(res);
     } catch (error) {
       throw new Error(error);
     }

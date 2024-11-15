@@ -11,7 +11,7 @@ export const getNguonC = async (slug: string, seasons: string) => {
     }
     const data = await res.json();
     // console.log('---->data:', data.movie.episodes);
-    return data?.movie?.episodes[0]?.items?.map(epi => {
+    return data?.movie?.episodes[0]?.items?.map((epi: any) => {
       return {
         title: epi.name,
         seasons: seasons,

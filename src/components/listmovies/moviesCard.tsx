@@ -18,15 +18,17 @@ const MoviesCard = ({ movies }: { movies: any }) => {
         blurDataURL="data:image/svg+xml;base64,..."
         sizes="50vw"
         quality={50}
+        fill
+        objectFit="cover"
         style={{
-          width: '100%',
-          height: '100%',
-          borderRadius: '8px',
-          objectFit: 'cover',
+          // width: '100%',
+          // height: '100%',
+          // borderRadius: '8px',
+          // objectFit: 'cover',
           transition: 'transform 0.3s ease',
         }}
-        width={40}
-        height={50}
+        // width={40}
+        // height={50}
       />
     </>
   );

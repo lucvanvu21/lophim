@@ -7,12 +7,12 @@ import MoviesCard from './moviesCard';
 import PaginationComp from '../pagination';
 
 const MoviesList = ({ movies, column, paginate }: { movies: any; column?: boolean; paginate?: any }) => {
-  const cols = column ? column : 12;
+  // const cols = column ? column : 12;
   return (
     <>
       <Grid container spacing={2}>
         {movies?.map((item: any) => (
-          <Grid size={{ xs: 6, sm: 3, md: column ? 4 : 2, lg: column ? 3 : 2 }} key={item._id}>
+          <Grid size={{ xs: 6, sm: 3, md: column ? 4 : 2, lg: column ? 3 : 1.5 }} key={item._id}>
             <Box
               sx={{
                 cursor: 'pointer',
@@ -26,7 +26,7 @@ const MoviesList = ({ movies, column, paginate }: { movies: any; column?: boolea
               }}
             >
               <Link href={'/chi-tiet-phim/' + item.slug}>
-                <Box sx={{ maxHeight: '253px', overflow: 'hidden', borderRadius: '8px' }}>
+                <Box sx={{position: 'relative',  maxHeight: '253px', overflow: 'hidden', borderRadius: '8px', paddingBottom: '133.8%' }}>
                   <MoviesCard movies={item} />
                 </Box>
                 <Box

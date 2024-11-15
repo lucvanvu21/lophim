@@ -227,7 +227,7 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
                   <Typography alignContent="center" sx={{ color: '#ddd', fontStyle: 'italic' }}>
                     Thể Loại :
                   </Typography>
-                  {movies?.category?.map((item, index) => (
+                  {movies?.category?.map((item: any, index: number) => (
                     <Link href={`/the-loai/${item.slug}`} key={item.id}>
                       <Chip
                         label={item.name}
@@ -248,7 +248,7 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
                     Quốc gia :
                   </Typography>
 
-                  {movies?.country.map((item, index) => (
+                  {movies?.country.map((item: any, index: number) => (
                     <Link href={`/quoc-gia/${item.slug}`} key={item?.id}>
                       <Chip
                         label={item.name}

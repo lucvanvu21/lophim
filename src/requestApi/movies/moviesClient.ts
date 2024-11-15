@@ -1,4 +1,4 @@
-import { http } from '../user/user';
+import { http } from "./movies";
 
 export const moviesRequestApiClient = {
   deleteGenres: async (id: string, token: string) => {

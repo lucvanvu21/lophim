@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 const Genres = async ({ params, searchParams }: { params: { slug: string }; searchParams: { page: number } }) => {
   // console.log('---->searchParams:', searchParams);
   const page = searchParams.page || 1;
-  const res = await moviesRequestApi.getMoviesByGenre(params.slug, page, 18);
+  const res = await moviesRequestApi.getMoviesByGenre(params.slug, page, 24);
   // console.log('---->res---genres:', res);
   return (
     <>

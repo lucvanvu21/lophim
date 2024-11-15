@@ -13,6 +13,7 @@ import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 import TopMovies from '@/components/topMovies';
 import MoviesCard from '@/components/listmovies/moviesCard';
 import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Xem phim online chất lượng cao FullHD Vietsub | Phim tốc độ',
@@ -46,12 +47,7 @@ export default async function Home() {
         <Header />
       </Box>
       <Container>
-        <Box sx={{ marginTop: '85px' }}>
-          {/* <SliceMain data={top} /> */}
-          {/* <CaraselMain data={hot} /> */}
-        </Box>
-
-        <Box sx={{ marginBottom: '1rem' }}>
+        <Box sx={{ marginBottom: '1rem',marginTop:'85px' }}>
           <Typography
             variant="h4"
             color={'primary'}
@@ -61,7 +57,7 @@ export default async function Home() {
             Phim Hoạt Hình
           </Typography>
           {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={resHoatHinh?.data?.items} autoPlay={true}/>
+          <EmblaCarouselz movies={resHoatHinh?.data?.items} autoPlay={true} />
         </Box>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 4 }}>
           <Grid size={{ xs: 12, md: 9 }}>
@@ -105,7 +101,7 @@ export default async function Home() {
                 </Typography>
               </Box>
 
-              <MoviesList movies={movies} column={true}/>
+              <MoviesList movies={movies} column={true} />
             </Box>
             <Divider />
             <Box sx={{ marginBottom: '1rem', marginTop: '1rem' }}>
@@ -187,7 +183,31 @@ export default async function Home() {
                             justifyContent: 'center',
                           }}
                         >
-                          <MoviesCard movies={item} />
+                          <Image
+                            src={
+                              item?.poster_url.startsWith('https')
+                                ? `${item?.poster_url}`
+                                : `${process.env.NEXT_PUBLIC_IMAGE}${item?.poster_url}`
+                            }
+                            // src={`${item?.thumb_url}`}
+                            alt={movies?.slug}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/svg+xml;base64,..."
+                            sizes="50vw"
+                            quality={50}
+                            // fill
+                            objectFit="cover"
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: '8px',
+                              objectFit: 'cover',
+                              transition: 'transform 0.3s ease',
+                            }}
+                            width={40}
+                            height={50}
+                          />
                         </Box>
                       </Link>
                     </Grid>

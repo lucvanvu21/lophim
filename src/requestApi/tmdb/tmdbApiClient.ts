@@ -32,17 +32,6 @@ export const tmdbApiClient = {
       country: res.origin_country.map((item: any) => item).join(', '),
     };
   },
-  getTop: async (day: string) => {
-    const res = await fetch(`/api/gettop?q=${day}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ day }),
-    });
-    const data = await res.json();
-    return data;
-  },
 
   getNguonCURL: async (slug: string) => {
     const res = await fetch(`/api/get-nguon-c?slug=${slug}`, {
@@ -60,7 +49,7 @@ export const tmdbApiClient = {
     const list = data?.movie?.episodes.map(item => {
       if (item.server_name.includes('Vietsub')) {
         return item?.items;
-      } 
+      }
       // return null;
     });
     // console.log('----->list', list);

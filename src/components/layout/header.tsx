@@ -416,7 +416,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [movieResults, setMovieResults] = React.useState([]);
   const [openSubMenus, setOpenSubMenus] = React.useState(false);
-  const [openSubmenu, setOpenSubmenu] = React.useState(null);
+  const [openSubmenu, setOpenSubmenu] = React.useState<string | null>(null);
   const router = useRouter();
 
   const [scrolled, setScrolled] = React.useState(false);
