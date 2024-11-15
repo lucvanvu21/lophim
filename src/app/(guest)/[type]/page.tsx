@@ -35,9 +35,9 @@ export const generateMetadata = async ({
 const Movies = async ({ params, searchParams }: { params: { type: string }; searchParams: { page: number } }) => {
   const page = searchParams.page || 1;
   let res: any;
-  if (params.type === 'tv') {
+  if (params.type === 'movies') {
     res = await moviesRequestApi.getAllMoviesForUser('phim-le', page, 24);
-  } else if (params.type === 'movies') {
+  } else if (params.type === 'tv') {
     res = await moviesRequestApi.getAllMoviesForUser('phim-bo', page, 24);
   } else if (params.type === 'hoat-hinh') {
     res = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', page, 24);
