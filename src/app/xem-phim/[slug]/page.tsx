@@ -24,6 +24,9 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
   if (res.error) {
     notFound();
   }
+  if (res.status === false) {
+    return <>Phim đang được cập nhật , bạn có thể quay lại sau !</>;
+  }
   const movies: any = res?.movie;
 
   return (
@@ -34,7 +37,9 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
           <IframeMovies res={res} tmdb={movies?.tmdb} hot={hot} />
         </Box>
         <Box sx={{ mx: { xs: '0', sm: '2rem', md: '3rem', lg: '7rem' } }}>
-          <Box sx={{ marginTop: 2,marginBottom:4, display: 'flex', flexDirection: 'column', gap: 2, marginX: { xs: '0.3rem' } }}>
+          <Box
+            sx={{ marginTop: 2, marginBottom: 4, display: 'flex', flexDirection: 'column', gap: 2, marginX: { xs: '0.3rem' } }}
+          >
             <Typography
               variant="h4"
               fontWeight={500}
@@ -61,20 +66,20 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
           </Box>
           <EmblaCarouselz movies={moiPhatHanh?.items} />
           <Box sx={{ display: { xs: 'block', lg: res?.movie?.episode_total > 1 ? 'none' : 'block' } }}>
-          {' '}
-          <Box sx={{ marginTop: '1rem' }}>
-            <Typography
-              variant="h4"
-              // fontWeight={600}
-              component={'h1'}
-              color={'primary'}
-              sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-            >
-              Top xem nhiều
-            </Typography>
-            <TopMovies hot={hot} />
+            {' '}
+            <Box sx={{ marginTop: '1rem' }}>
+              <Typography
+                variant="h4"
+                // fontWeight={600}
+                component={'h1'}
+                color={'primary'}
+                sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
+              >
+                Top xem nhiều
+              </Typography>
+              <TopMovies hot={hot} />
+            </Box>
           </Box>
-        </Box>
         </Box>
       </Box>
       <Box
