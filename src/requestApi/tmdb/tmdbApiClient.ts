@@ -33,8 +33,7 @@ export const tmdbApiClient = {
     };
   },
   getTop: async (day: string) => {
-    const baseUrl = typeof window === 'undefined' ? process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000' : ''; // Nếu là client, dùng đường dẫn tương đối
-    const res = await fetch(`${baseUrl}/api/gettop?q=${day}`, {
+    const res = await fetch(`/api/gettop?q=${day}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,8 +59,9 @@ export const tmdbApiClient = {
     }
     const list = data?.movie?.episodes.map(item => {
       if (item.server_name.includes('Vietsub')) {
-        return item.items;
-      }
+        return item?.items;
+      } 
+      // return null;
     });
     // console.log('----->list', list);
     return list[0];

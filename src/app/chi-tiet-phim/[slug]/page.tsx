@@ -66,7 +66,7 @@ export async function generateStaticParams() {
   const tv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 10);
   // const movies = [...le?.data.items, ...tv?.data.items];
   // console.log('---->movies:', movies);
-  const movies = [...le?.data.items, ...tv?.data.items];
+  const movies = [...le?.data?.items, ...tv?.data?.items];
   // console.log('---->movies:', movies);
   if (!Array.isArray(movies)) {
     throw new Error('Expected an array for results');

@@ -12,7 +12,7 @@ const Country = async ({ params, searchParams }: { params: { slug: string }; sea
   return (
     <>
       <Typography variant='h4' component={'h1'}>Phim theo quốc gia</Typography>
-      <MoviesList movies={res.data.items} paginate={res?.data?.params?.pagination} />
+      <MoviesList movies={res?.data?.items} paginate={res?.data?.params?.pagination} />
     </>
   )
 };

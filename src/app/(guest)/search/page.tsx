@@ -13,7 +13,7 @@ const Search = async ({ searchParams }: { searchParams: { q: string } }) => {
   return (
     <>
       <Typography component={'h1'} variant='h4'>Kết quả tìm kiếm cho `{query}` </Typography>
-      <MoviesList movies={res.data.items} paginate={res?.data?.params?.pagination}  />
+      <MoviesList movies={res?.data?.items} paginate={res?.data?.params?.pagination}  />
     </>
   );
 };

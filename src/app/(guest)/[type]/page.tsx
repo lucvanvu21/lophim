@@ -23,7 +23,7 @@ const Movies = async ({ params, searchParams }: { params: { type: string }; sear
       <Typography variant="h4" fontWeight={600} component={'h1'}>
         Danh sách phim {params.type === 'phim-le' ? 'lẻ' : params.type === 'phim-bo' ? 'bộ' : 'hoạt hình'}
       </Typography>
-      <MoviesList movies={res.data.items} paginate={res?.data?.params?.pagination} />
+      <MoviesList movies={res.data?.items} paginate={res?.data?.params?.pagination} />
     </>
   );
 };

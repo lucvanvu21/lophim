@@ -17,7 +17,7 @@ const Tv = async ({ searchParams }: { searchParams: { page: number } }) => {
       <Typography variant="h4" fontWeight={600} component={'h1'}>
         Danh sách phim bộ
       </Typography>
-      <MoviesList movies={res.data.items} paginate={res?.data?.params?.pagination} />
+      <MoviesList movies={res?.data?.items} paginate={res?.data?.params?.pagination} />
     </>
   );
 };

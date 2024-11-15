@@ -30,8 +30,8 @@ export default async function Home() {
 
   // console.log('---------sdfsdf', res3Hot);
 
-  const tv = resTv?.data.items;
-  const movies = resMovies?.data.items;
+  const tv = resTv?.data?.items;
+  const movies = resMovies?.data?.items;
   const moiPhatHanh = resMoiPhatHanh?.items;
   // console.log('---------sdfsdf',tv);
   // const tv = [...resTv?.items, ...resTv2?.items.slice(0, 2)];

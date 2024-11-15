@@ -11,7 +11,7 @@ const Genres = async ({ params, searchParams }: { params: { slug: string }; sear
   return (
     <>
       <Typography variant='h4' component={'h1'}>Phim theo thể loại</Typography>
-      <MoviesList movies={res.data.items} paginate={res?.data?.params?.pagination} />
+      <MoviesList movies={res?.data?.items} paginate={res?.data?.params?.pagination} />
     </>
   );
 };
