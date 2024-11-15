@@ -138,7 +138,31 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
           <Grid container spacing={5} sx={{ marginTop: { sm: -25, xs: -45, md: -35 } }}>
             <Grid size={{ xs: 12, sm: 4, md: 3 }}>
               <Box sx={{ marginX: { xs: '40px', sm: '0px', md: '0px', lg: '0px', xl: '0px' } }}>
-                <MoviesCard movies={movies} />
+                <Image
+                  src={
+                    movies?.poster_url.startsWith('https')
+                      ? `${movies?.poster_url}`
+                      : `${process.env.NEXT_PUBLIC_IMAGE}${movies?.poster_url}`
+                  }
+                  // src={`${movies?.thumb_url}`}
+                  alt={movies?.slug}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,..."
+                  sizes="50vw"
+                  quality={50}
+                  // fill
+                  objectFit="cover"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '8px',
+                    // objectFit: 'cover',
+                  }}
+                  width={40}
+                  height={50}
+                />
+
                 <Link href={'/xem-phim/' + movies?.slug}>
                   <Button
                     variant="contained"
