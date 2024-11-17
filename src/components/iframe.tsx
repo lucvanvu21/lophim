@@ -9,8 +9,7 @@ import Grid from '@mui/material/Grid2';
 import { useEffect, useRef, useState } from 'react';
 import JWPlayer from '@jwplayer/jwplayer-react';
 import TopMovies from './topMovies';
-import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
-import { set } from 'lodash';
+
 import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 
 const listServer = [{ name: 'Server 1' }, { name: 'Server 2' }, { name: 'server 3' }];
@@ -91,6 +90,18 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot?: any[] }) 
                     onReady={() => setLoading(false)}
                     // onError={() => setLoading(false)}
                     onLoad={() => setLoading(false)}
+                    // onTime={event => {
+                    //   const player = jwplayer();
+                    //   const currentTime = event.currentTime;
+                    //   if (currentTime >= 900.8 && currentTime < 930) {
+                    //     const currentPlayerTime = player.getCurrentTime();
+
+                    //     // Chỉ seek nếu thời gian hiện tại của player chưa ở 930.99
+                    //     if (currentPlayerTime < 930.99) {
+                    //       player.seek(930.99); // Chỉ seek nếu không ở vị trí mong muốn
+                    //     }
+                    //   }
+                    // }}
                     config={{
                       pipIcon: 'enabled',
                       playbackRateControls: true,

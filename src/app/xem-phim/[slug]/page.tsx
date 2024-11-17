@@ -4,10 +4,7 @@ import React from 'react';
 import IframeMovies from '@/components/iframe';
 import Header from '@/components/layout/header';
 import { notFound } from 'next/navigation';
-import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 import EmblaCarouselz from '@/components/carasel';
-import TopMovies from '@/components/topMovies';
-import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 
 // export async function generateStaticParams() {
 //   const le = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 10);
@@ -20,7 +17,7 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
   const res = await moviesRequestApi.getMoviesBySlug(slug);
   const moiPhatHanh = await moviesRequestApi.getMoviesUpdateForUser('phim-moi-cap-nhat', 1, 16);
   const day = 'day';
-  const hot = await tmdbApiClient.getTop2(day);
+  // const hot = await tmdbApiClient.getTop2(day);
   if (res.error) {
     notFound();
   }
@@ -34,8 +31,13 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
       <Header />
       <Box>
         <Box sx={{ mx: { xs: '0', sm: '2rem', md: '3rem', lg: '7rem' }, mt: '4.5rem' }}>
-          <IframeMovies res={res} tmdb={movies?.tmdb} hot={hot} />
+          <IframeMovies res={res} tmdb={movies?.tmdb} />
         </Box>
+
+        {/* <Box sx={{ mx: { xs: '0', sm: '2rem', md: '3rem', lg: '7rem' }, mt: '4.5rem' }}>
+        <VideoPlayer src={res?.episodes[0]?.server_data[0]?.link_m3u8}/>
+        </Box> */}
+
         <Box sx={{ mx: { xs: '0', sm: '2rem', md: '3rem', lg: '7rem' } }}>
           <Box
             sx={{ marginTop: 2, marginBottom: 4, display: 'flex', flexDirection: 'column', gap: 2, marginX: { xs: '0.3rem' } }}
@@ -77,7 +79,7 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
               >
                 Top xem nhiều
               </Typography>
-              <TopMovies hot={hot} />
+              {/* <TopMovies hot={hot} /> */}
             </Box>
           </Box>
         </Box>

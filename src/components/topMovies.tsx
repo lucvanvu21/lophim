@@ -46,7 +46,7 @@ const TopMovies = ({ hot }: { hot: any }) => {
           ))}
         </Box>
 
-        {data.map((item: any, index: number) => (
+        {data?.map((item: any, index: number) => (
           <Box key={item.slug} sx={{ display: 'flex', gap: 2, marginBottom: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Box

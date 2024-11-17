@@ -2,23 +2,23 @@ import { request } from '@/utils/http';
 export const moviesRequestApi = {
   //favorites
   getAllMoviesForUser: async (type?: string, page?: number, limit?: number) => {
-    return http.get(`/v1/api/danh-sach/${type}?page=${page}&limit=${limit}`, { cache: { next: { tags: ['list-movies'] } } });
+    return http.get(`/v1/api/danh-sach/${type}?page=${page}&limit=${limit}`, { cache: 'no-store' });
   },
   getMoviesByGenre: async (genre: string, page: number, limit: number, country?: string) => {
     if (country) {
-      return http.get(`/v1/api/quoc-gia/${country}?page=${page}&limit=${limit}`, { cache: { next: { tags: ['list-movies'] } } });
+      return http.get(`/v1/api/quoc-gia/${country}?page=${page}&limit=${limit}`, { cache: 'no-store' });
     }
-    return http.get(`/v1/api/the-loai/${genre}?page=${page}&limit=${limit}`, { cache: { next: { tags: ['list-movies'] } } });
+    return http.get(`/v1/api/the-loai/${genre}?page=${page}&limit=${limit}`, { cache: 'no-store' });
   },
   getMoviesBySlug: async (slug: string) => {
-    return http.get(`/phim/${slug}`, { cache: { next: { tags: ['list-movies'] } } });
+    return http.get(`/phim/${slug}`, { cache: 'no-store' });
   },
   getSearch: async (query: string, page: number, limit: number) => {
-    return http.get(`/v1/api/tim-kiem?keyword=${query}&limit=${limit}`, { cache: { next: { tags: ['list-movies'] } } });
+    return http.get(`/v1/api/tim-kiem?keyword=${query}&limit=${limit}`, { cache: 'no-store' });
   },
 
   getMoviesUpdateForUser: async (type: string, page: number, limit: number) => {
-    return http.get(`/danh-sach/${type}?page=${page}&limit=${limit}`, { cache: { next: { tags: ['list-movies'] } } });
+    return http.get(`/danh-sach/${type}?page=${page}&limit=${limit}`, { cache: 'no-store' });
   },
 };
 
