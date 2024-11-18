@@ -21,12 +21,13 @@ export const metadata: Metadata = {
     'Xem phim hay nhất 2024 cập nhật nhanh nhất, Xem Phim Online HD Vietsub - Thuyết Minh tốt trên nhiều thiết bị - Phim Online Full HD hấp dẫn nhất',
 };
 export default async function Home() {
+  
   const resTv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 12);
   // const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
   // console.log('---------sdfsdf',resTv.data);
   const resMovies = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
   const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 12);
-  const resMoiPhatHanh = await moviesRequestApi.getMoviesUpdateForUser('phim-moi-cap-nhat', 1, 16);
+  const resMoiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
   const hot = await tmdbApiClient.getTop2('day');
 
   // console.log('---------sdfsdf', res3Hot);
