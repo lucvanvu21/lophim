@@ -15,7 +15,6 @@ export const request = async (method: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE
     const fullUrl = url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
     // console.log('---->fullUrl:', fullUrl, '---->body:', body, '--->option:', options);
     const res = await fetch(fullUrl, {
-      // cache: 'no-store',
       // ...options,
       headers: {
         ...baseHeader,
