@@ -20,14 +20,15 @@ export const request = async (method: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE
         ...options?.headers,
       },
       body,
-      ...nextTags,
+      // ...nextTags,
       method,
+      next: { revalidate: 21600 },
     });
     if (key) {
       revalidateTag(`${key}`);
     }
     const payload = await res.json();
-    
+
     // console.log('---->payload:', payload);
     if (!res.ok) {
       // Trả về lỗi mà không gây ra lỗi cho frontend

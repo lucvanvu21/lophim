@@ -16,9 +16,9 @@ import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Xem phim online chất lượng cao FullHD Vietsub | Phim tốc độ',
+  title: 'Xem phim online chất lượng cao FullHD Vietsub | lò phim',
   description:
-    'Xem phim hay nhất 2024 cập nhật nhanh nhất, Xem Phim Online HD Vietsub - Thuyết Minh tốt trên nhiều thiết bị - Phim Online Full HD hấp dẫn nhất',
+    'Xem phim hay nhất 2024 cập nhật nhanh nhất, Xem Phim Online HD Vietsub tốt trên nhiều thiết bị - Phim Online Full HD hấp dẫn nhất',
 };
 export default async function Home() {
   
