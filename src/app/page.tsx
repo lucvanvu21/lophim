@@ -26,7 +26,7 @@ export default async function Home() {
   // const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
   // console.log('---------sdfsdf',resTv.data);
   const resMovies = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
-  const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 12);
+  const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 24);
   const resMoiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
   const hot = await tmdbApiClient.getTop2('day');
 
@@ -47,7 +47,7 @@ export default async function Home() {
       <Box>
         <Header />
       </Box>
-      <Container>
+      <Container maxWidth="xl">
         <Box sx={{ marginBottom: '1rem',marginTop:'85px' }}>
           <Typography
             variant="h4"

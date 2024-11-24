@@ -22,7 +22,7 @@ export const request = async (method: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE
       body,
       // ...nextTags,
       method,
-      next: { revalidate: 21600 },
+      next: { revalidate: 15600 },
     });
     if (key) {
       revalidateTag(`${key}`);

@@ -15,7 +15,7 @@ import EmblaCarouselz from '@/components/carasel';
 const Watch = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const res = await moviesRequestApi.getMoviesBySlug(slug);
-  const moiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
+  const moiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat-v2', 1, 30);
   const day = 'day';
   // const hot = await tmdbApiClient.getTop2(day);
   if (res.error) {
@@ -66,22 +66,14 @@ const Watch = async ({ params }: { params: { slug: string } }) => {
               {movies?.content}
             </Typography>
           </Box>
+          <Typography
+            variant="h5"
+            component={'h1'}
+            sx={{ fontSize: { xs: '1.4rem', sm: '1.8rem', md: '2.2rem', lg: '2.2rem', xl: '2.2rem' }, my: 2 }}
+          >
+            Phim mới cập nhật
+          </Typography>
           <EmblaCarouselz movies={moiPhatHanh?.items} />
-          <Box sx={{ display: { xs: 'block', lg: res?.movie?.episode_total > 1 ? 'none' : 'block' } }}>
-            {' '}
-            <Box sx={{ marginTop: '1rem' }}>
-              <Typography
-                variant="h4"
-                // fontWeight={600}
-                component={'h1'}
-                color={'primary'}
-                sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-              >
-                Top xem nhiều
-              </Typography>
-              {/* <TopMovies hot={hot} /> */}
-            </Box>
-          </Box>
         </Box>
       </Box>
       <Box

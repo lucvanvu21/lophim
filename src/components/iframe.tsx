@@ -33,7 +33,7 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot?: any[] }) 
     // console.log('---->movies:', currentEpisodeUrl);
   }, []);
   // console.log('vtt_blob:', vtt_blob);
-  const size = res?.movie?.episode_total > 1 ? 9 : 12;
+  const size = res?.movie?.episode_total > 1 ? 12 : 12;
   // console.log('---->episodes:', size);
   const playlist = [
     {
@@ -257,7 +257,7 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot?: any[] }) 
         {/* <Grid size={12}> */}
 
         {/* </Grid> */}
-        <Grid size={{ xs: 12, lg: 3 }} sx={{ display: { xs: 'none', lg: res?.movie?.episode_total > 1 ? 'block' : 'none' } }}>
+        {/* <Grid size={{ xs: 12, lg: 3 }} sx={{ display: { xs: 'none', lg: res?.movie?.episode_total > 1 ? 'block' : 'none' } }}>
           <Box sx={{ marginTop: '1rem' }}>
             <Typography
               variant="h4"
@@ -270,7 +270,7 @@ const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot?: any[] }) 
             </Typography>
             <TopMovies hot={hot} />
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

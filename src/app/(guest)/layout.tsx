@@ -7,7 +7,7 @@ const LayoutGuest = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header/>
-      <Container sx={{marginTop:'80px'}}>{children}</Container>
+      <Container maxWidth="xl" sx={{marginTop:'80px'}}>{children}</Container>
       <FooterLayout/>
     </>
   );

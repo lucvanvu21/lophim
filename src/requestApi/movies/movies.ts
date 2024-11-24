@@ -11,6 +11,9 @@ export const moviesRequestApi = {
     }
     return http.get(`/v1/api/the-loai/${genre}?page=${page}&limit=${limit}`, { next: { revalidate: 3600 } });
   },
+  getMovieByYear: async (year: string, page: number, limit: number) => {
+    return http.get(`/v1/api/nam/${year}?page=${page}&limit=${limit}`, { next: { revalidate: 3600 } });
+  },
   getMoviesBySlug: async (slug: string) => {
     return http.get(`/phim/${slug}`, { next: { revalidate: 3600 } });
   },

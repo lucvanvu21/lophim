@@ -94,18 +94,19 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
 
   // const type = movies.type === 'series' ? 'tv' : 'movie';
   const actor = await tmdbApi.getActor(movies?.tmdb?.type, movies?.tmdb?.id);
-  // let rateEpisode;
+  let rateEpisode;
   // // let response;
 
-  // if (movies?.mediaType === 'tv') {
-  //   rateEpisode = await tmdbApi.getRateEpisode(movies?.mediaTmdbId);
-  //   // response = await moviesRequestApi.getEpisodeCount(movies?._id);
-  // }
+  if (movies?.tmdb?.type === 'tv' && movies?.tmdb?.id) {
+    rateEpisode = await tmdbApi.getRateEpisode(movies?.tmdb?.id);
+    // response = await moviesRequestApi.getEpisodeCount(movies?._id);
+  }
   // const rate = await tmdbApi.getRate(movies?.mediaImdbId);
 
   // const year = new Date(movies?.mediaYear).getFullYear();
 
   // console.log('---->res:', movies);
+  // console.log('rate:', rateEpisode);
   // console.log('---->response:', response);
   return (
     <>
@@ -246,6 +247,20 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
                   </Box>
                 </Box> */}
 
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Box
+                    sx={{
+                      fontWeight: '700', // Độ đậm chữ
+                      fontSize: '14px',
+                      backgroundColor: '#01b4e4',
+                      borderRadius: '1rem',
+                      paddingX: '4px',
+                    }}
+                  >
+                    TMDB
+                  </Box>
+                  <Typography fontWeight={600}>{movies?.tmdb?.vote_average}</Typography>
+                </Box>
                 {/* <Bookmark movieId={movies?._id} /> */}
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Typography alignContent="center" sx={{ color: '#ddd', fontStyle: 'italic' }}>
@@ -344,7 +359,7 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
               </Box>
             </Grid>
           </Grid>
-          {/* {movies?.mediaType === 'tv' && rateEpisode.length > 0 && (
+          {movies?.tmdb?.type === 'tv' && rateEpisode.length > 0 && (
             <Container>
               <Box sx={{ fontSize: '24px', display: 'flex', marginTop: '2rem', marginBottom: '0.75rem' }}>
                 Điểm đánh giá{' '}
@@ -370,7 +385,7 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
               </Box>
               <RatingEpisodes dataRate={rateEpisode} />
             </Container>
-          )} */}
+          )}
         </Container>
 
         <FooterLayout />

@@ -373,6 +373,11 @@ export const pages = [
         label: 'Kinh Điển',
         href: '/the-loai/kinh-dien',
       },
+      {
+        _id: '6ef24f2b0d88d6f32b79bbc9fe93823f',
+        label: '18+',
+        href: '/the-loai/phim-18',
+      },
     ],
   },
   // {
@@ -390,20 +395,88 @@ export const pages = [
   //     },
   //   ],
   // },
-  // {
-  //   label: 'Năm',
-  //   href: '/year?year=2024',
-  //   submenus: [
-  //     {
-  //       href: '/year?year=2024',
-  //       label: '2022',
-  //     },
-  //     {
-  //       href: '/year?year=2024',
-  //       label: '2020',
-  //     },
-  //   ],
-  // },
+  {
+    label: 'Năm',
+    href: '#',
+    submenus: [
+      {
+        href: '/nam/2024',
+        label: '2024',
+      },
+      {
+        href: '/nam/2023',
+        label: '2023',
+      },
+      {
+          href: '/nam/2022',
+        label: '2022',
+      },
+      {
+        href: '/nam/2021',
+        label: '2021',
+      },
+      {
+        href: '/nam/2020',
+        label: '2020',
+      },
+      {
+        href: '/nam/2019',
+        label: '2019',
+      },
+      {
+        href: '/nam/2018',
+        label: '2018',
+      },
+      {
+        href: '/nam/2017',
+        label: '2017',
+      },
+      {
+        href: '/nam/2016',
+        label: '2016',
+      },
+      {
+        href: '/nam/2015',
+        label: '2015',
+      },
+      {
+        href: '/nam/2014',
+        label: '2014',
+      },
+      {
+        href: '/nam/2013',
+        label: '2013',
+      },
+      {
+        href: '/nam/2012',
+        label: '2012',
+      },
+      {
+        href: '/nam/2011',
+        label: '2011',
+      },
+      {
+        href: '/nam/2011',
+        label: '2011',
+      },
+      {
+        href: '/nam/2010',
+        label: '2010',
+      },
+      {
+        href: '/nam/2009',
+        label: '2009',
+      },
+      {
+        href: '/nam/2008',
+        label: '2008',
+      },
+      {
+        href: '/nam/2008',
+        label: '2008',
+      },
+    ],
+  },
 ];
 
 export default function Header() {

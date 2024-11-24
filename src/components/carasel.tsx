@@ -71,7 +71,7 @@ const EmblaCarouselz = ({ movies, autoPlay }: { movies: any; autoPlay?: boolean 
         if (emblaApi) emblaApi.scrollNext();
       };
 
-      autoplayInterval.current = setInterval(autoplay, 5000);
+      autoplayInterval.current = setInterval(autoplay, 6000);
 
       return () => {
         if (autoplayInterval.current) clearInterval(autoplayInterval.current);

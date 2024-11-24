@@ -12,7 +12,7 @@ const MoviesList = ({ movies, column, paginate }: { movies: any; column?: boolea
     <>
       <Grid container spacing={2}>
         {movies?.map((item: any) => (
-          <Grid size={{ xs: 6, sm: 3, md: column ? 4 : 2, lg: column ? 3 : 1.5 }} key={item._id}>
+          <Grid size={{ xs: 6, sm: 3, md: column ? 3 : 2, lg: column ? 2 : 1.5 }} key={item._id}>
             <Box
               sx={{
                 cursor: 'pointer',

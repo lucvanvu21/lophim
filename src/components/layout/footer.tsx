@@ -4,7 +4,7 @@ import React from 'react';
 const FooterLayout = () => {
   return (
     <>
-      <Container sx={{ mt: 3 }}>
+      <Container maxWidth="xl" sx={{ my: 3 }}>
         <Divider />
         <Typography sx={{ mt: 3 }} color="#b5b5b5" lineHeight={2}>
           lophim.site - Xem phim online chất lượng cao miễn phí với phụ đề tiếng việt - thuyết minh - lồng tiếng, có nhiều thể loại
