@@ -11,7 +11,7 @@ const ImageComponent = ({ item, getImageSrc }) => {
   return (
     <>
       <Image
-        src={getImageSrc(item?.poster_url, item?.actorPoster) || 'https://i.imgur.com/o8AhA0H.png'}
+        src={getImageSrc(item?.imageUrl || item?.poster_url, item?.actorPoster) || 'https://i.imgur.com/o8AhA0H.png'}
         alt={item?.mediaNameVie || item?.actorName}
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADA..."
@@ -23,7 +23,7 @@ const ImageComponent = ({ item, getImageSrc }) => {
           height: '100%',
           borderRadius: '8px',
           objectFit: 'cover',
-          maxHeight: item?.actorName ? 300 : '239px',
+          maxHeight: item?.actorName ? 300 : '250px',
           // borderRadius: '8px',
           // display: isLoading ? 'none' : 'block',
         }}
@@ -91,6 +91,7 @@ const EmblaCarouselz = ({ movies, autoPlay }: { movies: any; autoPlay?: boolean 
   const getImageSrc = (mediaPoster, actorPoster) => {
     if (mediaPoster?.startsWith?.('https')) return mediaPoster;
     if (mediaPoster?.startsWith?.('/')) return `${process.env.NEXT_PUBLIC_IMAGE}${mediaPoster}`;
+    if (mediaPoster?.includes('base64')) return `${mediaPoster}`;
     if (mediaPoster) return `${process.env.NEXT_PUBLIC_IMAGE}${mediaPoster}`;
 
     if (actorPoster?.includes?.('null')) return 'https://i.imgur.com/o8AhA0H.png';

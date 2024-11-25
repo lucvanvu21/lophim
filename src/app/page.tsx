@@ -21,19 +21,27 @@ export const metadata: Metadata = {
     'Xem phim hay nhất 2024 cập nhật nhanh nhất, Xem Phim Online HD Vietsub tốt trên nhiều thiết bị - Phim Online Full HD hấp dẫn nhất',
 };
 export default async function Home() {
-  
   const resTv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 12);
   // const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
   // console.log('---------sdfsdf',resTv.data);
-  const resMovies = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
+  const resMovies1 = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
+  const resHoatH = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize?type=hoat-hinh&page=1&limit=18`);
+  const ressH2 = await resHoatH.json();
+  const resMovies = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize?type=phim-le&page=1&limit=12`);
+  const ress = await resMovies.json();
+  const resTV = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize?type=phim-bo&page=1&limit=12`);
+  const ressTV = await resTV.json();
   const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 24);
   const resMoiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
   const hot = await tmdbApiClient.getTop2('day');
 
   // console.log('---------sdfsdf', res3Hot);
 
-  const tv = resTv?.data?.items;
-  const movies = resMovies?.data?.items;
+  // console.log('---------ressss', ress);
+  const tv = ressTV?.data;
+  const movies = ress?.data;
+  const resHH = ressH2?.data;
+  console.log('---------ressss', resHH);
   const moiPhatHanh = resMoiPhatHanh?.items;
   // console.log('---------sdfsdf',tv);
   // const tv = [...resTv?.items, ...resTv2?.items.slice(0, 2)];
@@ -48,7 +56,7 @@ export default async function Home() {
         <Header />
       </Box>
       <Container maxWidth="xl">
-        <Box sx={{ marginBottom: '1rem',marginTop:'85px' }}>
+        <Box sx={{ marginBottom: '1rem', marginTop: '85px' }}>
           <Typography
             variant="h4"
             color={'primary'}
@@ -58,7 +66,7 @@ export default async function Home() {
             Phim Hoạt Hình
           </Typography>
           {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={resHoatHinh?.data?.items} autoPlay={true} />
+          <EmblaCarouselz movies={resHH} autoPlay={true} />
         </Box>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 4 }}>
           <Grid size={{ xs: 12, md: 9 }}>

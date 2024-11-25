@@ -23,14 +23,18 @@ export const tmdbApi = {
     });
   },
   getRateEpisode: async (id: string) => {
-    const rate = await fetch(`https://seriesgraph.com/api/shows/${id}/season-ratings`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
-    const dataRate = await rate.json();
-    return dataRate;
+    try {
+      const rate = await fetch(`https://seriesgraph.com/api/shows/${id}/season-ratings`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      const dataRate = await rate.json();
+      return dataRate;
+    } catch (error) {
+      return false
+    }
   },
   getRate: async (id: string) => {
     // console.log('---->id:', id);
