@@ -30,7 +30,7 @@ async function resizeImage(imageUrl: string, width: number, height: number) {
       .webp({ quality: 80 }) // Chuyển đổi sang WebP để tối ưu
       .toBuffer();
 
-      // console.log('---->resizedImageBuffer:', resizedImageBuffer);
+    // console.log('---->resizedImageBuffer:', resizedImageBuffer);
     // Chuyển buffer thành base64
     return `data:image/webp;base64,${resizedImageBuffer.toString('base64')}`;
   } catch (error) {
@@ -39,16 +39,10 @@ async function resizeImage(imageUrl: string, width: number, height: number) {
   }
 }
 
-export async function GET(request: Request) {
+export async function POST(req: Request) {
   try {
-    // Lấy parameters từ URL
-    const { searchParams } = new URL(request.url);
-    const imageUrl = searchParams.get('url');
-    const width = searchParams.get('width');
-    const height = searchParams.get('height');
-    const type = searchParams.get('type');
-    const page = searchParams.get('page');
-    const limit = searchParams.get('limit');
+    const body = await req.json();
+    const { type, page, limit } = body;
     // console.log('---->type:', type);
     const moviesList = await moviesRequestApi.getAllMoviesForUser(type, Number(page), Number(limit));
 

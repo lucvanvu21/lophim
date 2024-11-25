@@ -25,11 +25,20 @@ export default async function Home() {
   // const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
   // console.log('---------sdfsdf',resTv.data);
   const resMovies1 = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
-  const resHoatH = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize?type=hoat-hinh&page=1&limit=18`);
+  const resHoatH = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
+    method: 'POST',
+    body: JSON.stringify({ type: 'hoat-hinh', page: 1, limit: 18 }),
+  });
   const ressH2 = await resHoatH.json();
-  const resMovies = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize?type=phim-le&page=1&limit=12`);
+  const resMovies = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
+    method: 'POST',
+    body: JSON.stringify({ type: 'phim-le', page: 1, limit: 12 }),
+  });
   const ress = await resMovies.json();
-  const resTV = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize?type=phim-bo&page=1&limit=12`);
+  const resTV = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
+    method: 'POST',
+    body: JSON.stringify({ type: 'phim-bo', page: 1, limit: 12 }),
+  });
   const ressTV = await resTV.json();
   const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 24);
   const resMoiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
@@ -41,7 +50,7 @@ export default async function Home() {
   const tv = ressTV?.data;
   const movies = ress?.data;
   const resHH = ressH2?.data;
-  console.log('---------ressss', resHH);
+  // console.log('---------ressss', resHH);
   const moiPhatHanh = resMoiPhatHanh?.items;
   // console.log('---------sdfsdf',tv);
   // const tv = [...resTv?.items, ...resTv2?.items.slice(0, 2)];
@@ -206,7 +215,7 @@ export default async function Home() {
                             sizes="50vw"
                             quality={50}
                             // fill
-                            objectFit="cover"
+                            // objectFit="cover"
                             style={{
                               width: '100%',
                               height: '100%',

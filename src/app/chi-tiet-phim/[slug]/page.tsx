@@ -153,12 +153,12 @@ const Detail = async ({ params }: { params: { slug: string } }) => {
                   sizes="50vw"
                   quality={50}
                   // fill
-                  objectFit="cover"
+                  // objectFit="cover"
                   style={{
                     width: '100%',
                     height: '100%',
                     borderRadius: '8px',
-                    // objectFit: 'cover',
+                    objectFit: 'cover',
                   }}
                   width={40}
                   height={50}
