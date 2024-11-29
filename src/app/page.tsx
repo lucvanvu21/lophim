@@ -46,7 +46,6 @@ export default async function Home() {
   const tungCua = await moviesRequestApi.getMoviesByGenre(undefined, 1, 24,'trung-quoc');
   const hot = await tmdbApiClient.getTop2('day');
 
-  // console.log('---------sdfsdf', res3Hot);
 
   // console.log('---------ressss', ress);
   
