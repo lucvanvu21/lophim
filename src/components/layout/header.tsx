@@ -18,7 +18,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
 import { green, red } from '@mui/material/colors';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Slide } from '@mui/material';
@@ -408,7 +407,7 @@ export const pages = [
         label: '2023',
       },
       {
-          href: '/nam/2022',
+        href: '/nam/2022',
         label: '2022',
       },
       {
@@ -480,7 +479,7 @@ export const pages = [
 ];
 
 export default function Header() {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -565,26 +564,26 @@ export default function Header() {
     }
   };
 
-  const logout = React.useCallback(() => {
-    const accessToken = session?.access_token || undefined;
+  // const logout = React.useCallback(() => {
+  //   const accessToken = session?.access_token || undefined;
 
-    fetch(`/api/auth/logout`, {
-      method: 'POST',
-      body: JSON.stringify({ accessToken }),
-    })
-      .then(res => res.json())
+  //   fetch(`/api/auth/logout`, {
+  //     method: 'POST',
+  //     body: JSON.stringify({ accessToken }),
+  //   })
+  //     .then(res => res.json())
 
-      .finally(async () => {
-        await signOut({ callbackUrl: `/` });
-      });
-  }, [session]);
+  //     .finally(async () => {
+  //       await signOut({ callbackUrl: `/` });
+  //     });
+  // }, [session]);
 
-  React.useEffect(() => {
-    // console.log('session: ', session);
-    if (session?.error === 'AccessTokenError') {
-      logout();
-    }
-  }, [session, logout]);
+  // React.useEffect(() => {
+  //   // console.log('session: ', session);
+  //   if (session?.error === 'AccessTokenError') {
+  //     logout();
+  //   }
+  // }, [session, logout]);
 
   // const handleSignout = () => {
   //   signOut({ callbackUrl: '/' });
@@ -869,95 +868,6 @@ export default function Header() {
                     })}
                   </List>
                 </Box>
-              )}
-            </Box>
-            <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 2 }}>
-              {/* <Tooltip title="Danh sách yêu thích">
-                <Link
-                  href={'/favorites'}
-                  // href={session?.user ? '/favorites' : '#'}
-                  // onClick={e => {
-                  //   if (!session?.user) {
-                  //     e.preventDefault();
-                  //     alert('Bạn cần đăng nhập để truy cập danh sách yêu thích.');
-                  //   }
-                  // }}
-                  // {session?.user ? { onClick: e => e.preventDefault() } : {}}
-                  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                >
-                  <BookmarkBorderIcon
-                    sx={{
-                      '&:hover': {
-                        color: '#ff9e13',
-                      },
-                    }}
-                  ></BookmarkBorderIcon>
-                </Link>
-              </Tooltip> */}
-              {session?.user ? (
-                <Box>
-                  <Tooltip title="user">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                      <Avatar sx={{ bgcolor: green[500] }}>
-                        {session?.user?.name ? session?.user?.name.charAt(0).toUpperCase() : ''}
-                      </Avatar>
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                    disableScrollLock={true}
-                  >
-                    {/* {settings.map(setting => ( */}
-                    {/* <MenuItem onClick={handleCloseUserMenu}>
-                      <Button
-                        sx={{
-                          // color: red[300],
-                          '&:hover': {
-                            backgroundColor: 'initial', // Tắt đổi màu khi hover
-                            boxShadow: 'none', // Tắt đổ bóng khi hover
-                          },
-                          width: '100%',
-                        }}
-                      >
-                        <Link href={'/favorites'}>Danh sách yêu thích</Link>
-                      </Button>
-                    </MenuItem> */}
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Button
-                        sx={{
-                          color: red[300],
-                          '&:hover': {
-                            backgroundColor: 'initial',
-                            boxShadow: 'none',
-                          },
-                          width: '100%',
-                        }}
-                        onClick={() => logout()}
-                      >
-                        Đăng xuất
-                      </Button>
-
-                      {/* <Typography sx={{ textAlign: 'center' }}></Typography> */}
-                    </MenuItem>
-                    {/* // ))} */}
-                  </Menu>
-                </Box>
-              ) : (
-                <Typography>{/* <Link href="/#">Đăng nhập</Link> */}</Typography>
               )}
             </Box>
           </Toolbar>

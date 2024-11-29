@@ -172,7 +172,7 @@ const CaraselMain = ({ data }: { data: any }) => {
                       // srcSet={}
                       // loader={imageLoader}
                       src={item?.thumbUrl?.startsWith('https') ? `${item.thumb_url}` : `https://img.ophim.live/uploads/movies/${item.thumbUrl}`}
-                      alt={item.mediaNameVie}
+                      alt={item.name}
                       quality={60}
                       placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADA..."

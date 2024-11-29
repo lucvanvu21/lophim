@@ -9,7 +9,6 @@ import theme from '@/theme';
 import { CssBaseline } from '@mui/material';
 // import { ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-import ProviderWrapper from '@/components/providerWrapper';
 import { baseOpenGraph } from './shared-metadata';
 // import { Analytics } from '@vercel/analytics/react';
 import Script from 'next/script';
@@ -79,7 +78,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <ProviderWrapper>{children}</ProviderWrapper>
+            {children}
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

@@ -22,33 +22,36 @@ export const metadata: Metadata = {
 };
 export default async function Home() {
   // const resTv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 12);
-  // const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
+  const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
   // console.log('---------sdfsdf',resTv.data);
-  // const resMovies1 = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
+  const resMovies1 = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
   // const resHoatH = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
   //   method: 'POST',
   //   body: JSON.stringify({ type: 'hoat-hinh', page: 1, limit: 18 }),
   // });
   // const ressH2 = await resHoatH.json();
-  const resMovies = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
-    method: 'POST',
-    body: JSON.stringify({ type: 'phim-le', page: 1, limit: 12 }),
-  });
-  const ress = await resMovies.json();
-  const resTV = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
-    method: 'POST',
-    body: JSON.stringify({ type: 'phim-bo', page: 1, limit: 12 }),
-  });
-  const ressTV = await resTV.json();
+  // const resMovies = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
+  //   method: 'POST',
+  //   body: JSON.stringify({ type: 'phim-le', page: 1, limit: 12 }),
+  // });
+  // const ress = await resMovies.json();
+  // const resTV = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
+  //   method: 'POST',
+  //   body: JSON.stringify({ type: 'phim-bo', page: 1, limit: 12 }),
+  // });
+  // const ressTV = await resTV.json();
   const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 24);
   const resMoiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
+  const hanQuoc = await moviesRequestApi.getMoviesByGenre(undefined, 1, 24,'han-quoc');
+  const tungCua = await moviesRequestApi.getMoviesByGenre(undefined, 1, 24,'trung-quoc');
   const hot = await tmdbApiClient.getTop2('day');
 
   // console.log('---------sdfsdf', res3Hot);
 
   // console.log('---------ressss', ress);
-  const tv = ressTV?.data;
-  const movies = ress?.data;
+  
+  const tv = resTv2?.data?.items;
+  const movies = resMovies1?.data?.items;
   const resHH = resHoatHinh?.data?.items;
   // console.log('---------ressss', resHH);
   const moiPhatHanh = resMoiPhatHanh?.items;
@@ -72,10 +75,34 @@ export default async function Home() {
             sx={{ marginY: '1rem', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
             component={'h1'}
           >
+            Phim Hàn Xẻng
+          </Typography>
+          {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
+          <EmblaCarouselz movies={hanQuoc?.data?.items} autoPlay={false} />
+        </Box>
+        <Box sx={{ marginBottom: '1rem' }}>
+          <Typography
+            variant="h4"
+            color={'primary'}
+            sx={{ marginY: '1rem', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
+            component={'h1'}
+          >
+            Phim Tung Của
+          </Typography>
+          {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
+          <EmblaCarouselz movies={tungCua?.data?.items} autoPlay={false} />
+        </Box>
+        <Box sx={{ marginBottom: '1rem' }}>
+          <Typography
+            variant="h4"
+            color={'primary'}
+            sx={{ marginY: '1rem', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
+            component={'h1'}
+          >
             Phim Hoạt Hình
           </Typography>
           {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={resHH} autoPlay={true} />
+          <EmblaCarouselz movies={resHH} autoPlay={false} />
         </Box>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 4 }}>
           <Grid size={{ xs: 12, md: 9 }}>
@@ -180,6 +207,7 @@ export default async function Home() {
               {/* <Box> */}
               <Grid container sx={{ marginTop: '1rem', maxWidth: '365px' }} columnSpacing={1} rowSpacing={1}>
                 {moiPhatHanh?.map((item: any, index: number) => (
+                  // console.log('----->', item),
                   <Box
                     key={item._id}
                     sx={{
@@ -208,7 +236,7 @@ export default async function Home() {
                                 : `${process.env.NEXT_PUBLIC_IMAGE}${item?.poster_url}`
                             }
                             // src={`${item?.thumb_url}`}
-                            alt={movies?.slug}
+                            alt={item?.slug}
                             loading="lazy"
                             placeholder="blur"
                             blurDataURL="data:image/svg+xml;base64,..."

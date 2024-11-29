@@ -6,16 +6,18 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Image from 'next/image';
 import Link from 'next/link';
+import MoviesCard from './listmovies/moviesCard';
 
 const ImageComponent = ({ item, getImageSrc }) => {
   return (
     <>
       <Image
         src={getImageSrc(item?.imageUrl || item?.poster_url, item?.actorPoster) || 'https://i.imgur.com/o8AhA0H.png'}
-        alt={item?.mediaNameVie || item?.actorName}
+        alt={item?.name || item?.actorName}
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADA..."
         loading="lazy"
+        fill
         // sizes="60vw"
         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
         style={{
@@ -23,13 +25,13 @@ const ImageComponent = ({ item, getImageSrc }) => {
           height: '100%',
           borderRadius: '8px',
           objectFit: 'cover',
-          maxHeight: item?.actorName ? 300 : '250px',
+          maxHeight: item?.actorName ? 300 : '220px',
           // borderRadius: '8px',
           // display: isLoading ? 'none' : 'block',
         }}
         quality={60}
-        width={140}
-        height={170}
+        // width={140}
+        // height={170}
       />
     </>
   );
@@ -122,7 +124,7 @@ const EmblaCarouselz = ({ movies, autoPlay }: { movies: any; autoPlay?: boolean 
                     // sm: '33.333%',
                     sm: '23.6%',
                     md: '23.6%',
-                    lg: item.actorId ? '15.1%' : '15.5%',
+                    lg: item.actorId ? '15.1%' : '11.5%',
                   },
                   maxWidth: '185px',
                 }}
@@ -139,15 +141,38 @@ const EmblaCarouselz = ({ movies, autoPlay }: { movies: any; autoPlay?: boolean 
                   }}
                 >
                   <Link href={href}>
-                    <Box>
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        maxHeight: '253px',
+                        overflow: 'hidden',
+                        borderRadius: '8px',
+                        paddingBottom: '133.8%',
+                      }}
+                    >
                       <ImageComponent item={item} getImageSrc={getImageSrc} />
+                      {/* <MoviesCard movies={item} /> */}
+                      <Box sx={{ position: 'absolute', top: 3, right: 3 }}>
+                        <Typography
+                          sx={{
+                            display: 'flex',
+                            fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.75rem' },
+                            backgroundColor: '#df7a5e',
+                            p: '0.2rem',
+                            borderRadius: '0.2rem',
+                            // textTransform: 'uppercase',
+                          }}
+                        >
+                          {item?.episode_current}
+                        </Typography>
+                      </Box>
                       <Box
                         sx={{
                           position: 'absolute',
                           zIndex: 3,
-                          bottom: '6px',
+                          bottom: '0',
                           width: '100%',
-                          bgcolor: 'rgba(0,0,0,0.6)',
+                          bgcolor: { xs: 'none', sm: 'rgba(0,0,0,0.6)', md: 'rgba(0,0,0,0.6)' },
                           p: 0.5,
                           borderRadius: '0 0 8px 8px',
                         }}
@@ -161,7 +186,7 @@ const EmblaCarouselz = ({ movies, autoPlay }: { movies: any; autoPlay?: boolean 
                             fontSize: '0.8rem',
                           }}
                         >
-                          {item?.origin_name ? `${item?.origin_name} (${item.name})` : item?.actorName}
+                          {item?.name ? `${item?.name} (${item.origin_name})` : item?.actorName}
                         </Typography>
                         {item.character && (
                           <Typography

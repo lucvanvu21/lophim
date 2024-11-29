@@ -26,8 +26,30 @@ const MoviesList = ({ movies, column, paginate }: { movies: any; column?: boolea
               }}
             >
               <Link href={'/chi-tiet-phim/' + item.slug}>
-                <Box sx={{position: 'relative',  maxHeight: '253px', overflow: 'hidden', borderRadius: '8px', paddingBottom: '133.8%' }}>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    maxHeight: '253px',
+                    overflow: 'hidden',
+                    borderRadius: '8px',
+                    paddingBottom: '133.8%',
+                  }}
+                >
                   <MoviesCard movies={item} />
+                  <Box sx={{ position: 'absolute', top: 3, right: 3 }}>
+                    <Typography
+                      sx={{
+                        display: 'flex',
+                        fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.75rem' },
+                        backgroundColor:'#df7a5e',
+                        p:'0.2rem',
+                        borderRadius:'0.2rem',
+                        // textTransform: 'uppercase',
+                      }}
+                    >
+                      {item?.episode_current}
+                    </Typography>
+                  </Box>
                 </Box>
                 <Box
                   sx={{

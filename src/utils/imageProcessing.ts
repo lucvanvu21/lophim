@@ -3,7 +3,7 @@ import sharp from 'sharp';
 export async function resizeImage(imageUrl: string, width: number, height: number) {
   try {
     // Tải ảnh từ URL sử dụng fetch
-    console.log('---->imageUrl:', imageUrl);
+    // console.log('---->imageUrl:', imageUrl);
     const response = await fetch(imageUrl);
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
