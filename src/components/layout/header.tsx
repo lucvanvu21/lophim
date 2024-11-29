@@ -5,26 +5,19 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+
 // import { styled, alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Grid2';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link';
-import { green, red } from '@mui/material/colors';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Slide } from '@mui/material';
 import { moviesRequestApi } from '@/requestApi/movies/movies';
-import { IMovies } from '@/types';
 import Image from 'next/image';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 import { useRouter } from 'next/navigation';
 import CloseIcon from '@mui/icons-material/Close';

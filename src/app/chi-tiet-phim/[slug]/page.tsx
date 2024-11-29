@@ -15,7 +15,6 @@ import { baseOpenGraph } from '@/app/shared-metadata';
 import { notFound } from 'next/navigation';
 import CountEpisodes from '@/components/countEpisodes';
 import EmblaCarouselz from '@/components/carasel';
-import Bookmark from '@/components/bookmark';
 // import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
 
 type Props = {
