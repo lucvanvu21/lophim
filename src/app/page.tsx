@@ -55,12 +55,7 @@ export default async function Home() {
   const resHH = resHoatHinh?.data?.items;
   // console.log('---------ressss', resHH);
   const moiPhatHanh = resMoiPhatHanh?.items;
-  // console.log('---------sdfsdf',tv);
-  // const tv = [...resTv?.items, ...resTv2?.items.slice(0, 2)];
-  // const movies = [...resMovies?.items, ...resMovies2?.items.slice(0, 2)];
-  // const hot = res3Hot?.items;
-  // console.log('---------sdfsdf', hot);
-  // const top = hot?.result?.slice(0, 4);
+
 
   return (
     <>
