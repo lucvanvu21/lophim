@@ -1,48 +1,51 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
-
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-// import { Roboto } from 'next/font/google';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '@/theme';
-import { CssBaseline } from '@mui/material';
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-import { baseOpenGraph } from './shared-metadata';
-// import { Analytics } from '@vercel/analytics/react';
+import { Toaster } from '@/components/ui/toaster';
+import { baseOpenGraph } from './share-meta';
 import Script from 'next/script';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
+const geistSans = Inter({
   variable: '--font-geist-sans',
-  weight: '100 900',
+  subsets: ['vietnamese'],
 });
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
+
+const geistMono = Roboto_Mono({
   variable: '--font-geist-mono',
-  weight: '100 900',
+  subsets: ['vietnamese'],
 });
-// const roboto = Roboto({
-//   weight: ['300', '400', '500', '700'],
-//   subsets: ['vietnamese'],
-//   display: 'swap',
-//   variable: '--font-roboto',
-// });
+
 export const metadata: Metadata = {
   title: {
-    template: '%s | lophim.site',
-    default: 'Phim hay FullHD Vietsub | Phim lẻ | Phim Bộ',
+    template: '%s | lophim',
+    default: 'Phim tốc độ | Phim Mới | Phim HD | Xem phim nhanh | Phim VietSub ',
   },
+  description:
+    'lophim - Website xem phim trực tuyến chất lượng cao, cập nhật phim mới vietsub mỗi ngày, xem miễn phí hàng nghìn bộ phim HD/4K đa thể loại.',
+  keywords: [
+    'lophim',
+    'phim hay',
+    'Phim Trung Quốc',
+    ' Phim Hàn Quốc',
+    'Phim chiếu rạp',
+    'Phim hành động',
+    'Phim kinh di',
+    'Phim hài',
+    'Phim hoạt hình',
+    'Phim bộ hay nhất',
+    'Xem phim Online',
+  ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://lophim.site'),
-  description: 'Phim hay chất lượng cao tại lophim.site với nhiều thể loại phim hấp dẫn và luôn cập nhật những bộ phim mới nhất',
+  // authors: [{ name: 'Tên tác giả' }],
   openGraph: {
     ...baseOpenGraph,
+    title: 'LoPhim - Xem phim chất lượng cao',
+    description: 'Xem phim chất lượng cao tại lophim.site với hàng nghìn bộ phim mới nhất, chất lượng cao nhất Full HD, 4K',
     url: process.env.NEXT_PUBLIC_BASE_URL || 'https://lophim.site',
     images: [
       {
-        url: `https://lophim.site/backgroundLogin.jpg`,
-        alt: 'Xem phim online chất lượng cao tại lophim.site với nhiều thể loại phim hấp dẫn và luôn cập nhật những bộ phim mới nhất',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/bg.jpg`,
+        alt: 'Xem phim chất lượng cao tại lophim.site',
       },
     ],
   },
@@ -73,14 +76,9 @@ export default function RootLayout({
     `}
         </Script>
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* <Analytics /> */}
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Toaster />
+       {children}
       </body>
     </html>
   );

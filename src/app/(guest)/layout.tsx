@@ -1,16 +1,16 @@
-import FooterLayout from '@/components/layout/footer';
+import FooterC from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { Container } from '@mui/material';
-import React from 'react';
 
-const LayoutGuest = ({ children }: { children: React.ReactNode }) => {
+export default function AdminLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <>
-      <Header/>
-      <Container maxWidth="xl" sx={{marginTop:'80px'}}>{children}</Container>
-      <FooterLayout/>
+      <Header />
+      {children}
+      <FooterC />
     </>
   );
-};
-
-export default LayoutGuest;
+}

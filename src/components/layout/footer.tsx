@@ -1,32 +1,34 @@
-import { Container, Divider, Typography } from '@mui/material';
-import React from 'react';
+import Link from 'next/link';
 
-const FooterLayout = () => {
+const FooterC = () => {
   return (
-    <>
-      <Container maxWidth="xl" sx={{ my: 3 }}>
-        <Divider />
-        <Typography sx={{ mt: 3 }} color="#b5b5b5" lineHeight={2}>
-          lophim.site - Xem phim online chất lượng cao miễn phí với phụ đề tiếng việt - thuyết minh - lồng tiếng, có nhiều thể loại
-          phim phong phú, đặc sắc, nhiều bộ phim hay nhất - mới nhất. Website với giao diện trực quan, thuận tiện, tốc độ tải
-          nhanh, không quảng cáo hứa hẹn sẽ đem lại những trải nghiệm tốt cho người dùng.
-        </Typography>
-        {/* <Typography color="#b5b5b5" lineHeight={2}>
-          Lượng dữ liệu trên giây (bitrate) gấp từ 5 - 10 lần phim online thông thường - đây là yếu tố quyết định độ nét của phim
-          (thậm chí còn quan trọng hơn độ phân giải)
-        </Typography> */}
-        {/* <Typography color="#b5b5b5" lineHeight={2}>
-          Xem phim online miễn phí chất lượng siêu nét với phụ đề tiếng Việt - thuyết minh - lồng tiếng tại lophim. Thư viện
-          phim đa dạng, đặc sắc, cập nhật liên tục với những bộ phim hay nhất - mới nhất. Truy cập lophim.site ngay để trải
-          nghiệm giao diện trực quan, tiện lợi và tốc độ tải nhanh, mang đến những trải nghiệm tuyệt vời cho người dùng.
-        </Typography> */}
-        {/* <Typography color="#b5b5b5" lineHeight={2}>
-          Âm thanh 5.1 (6 channel) thay vì stereo (2 channel) như các trang phim khác (kể cả Youtube) Phù hợp để xem trên màn hình
-          TV, máy tính, laptop có độ phân giải cao
-        </Typography> */}
-      </Container>
-    </>
+    <footer className="my-8">
+      <div className="container mx-auto px-2">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="text-center md:text-left">
+            <div className="text-sm text-gray-500">
+              <Link href="/" className="text-blue-500 mr-1">
+                Phimtocdo
+              </Link>
+              - Xem phim online chất lượng cao miễn phí với phụ đề tiếng việt - thuyết minh - lồng tiếng, có nhiều thể loại phim
+              phong phú, đặc sắc, nhiều bộ phim hay nhất - mới nhất. Website với giao diện trực quan, thuận tiện, tốc độ tải
+              nhanh, ít quảng cáo hứa hẹn sẽ đem lại những trải nghiệm tốt cho người dùng. Tất cả nội dung của trang web này được
+              thu thập từ các trang web video chính thống trên Internet, và không cung cấp phát trực tuyến chính hãng. Nếu quyền
+              lợi của bạn bị vi phạm, vui lòng thông báo cho chúng tôi, chúng tôi sẽ xóa nội dung vi phạm kịp thời, cảm ơn sự hợp
+              tác của bạn!
+            </div>
+            <p className="text-sm text-gray-500">
+              © 2025{' '}
+              <Link href="/" className="text-blue-500">
+                Phimtocdo
+              </Link>
+            </p>
+            <p className="text-sm text-gray-500">Made with ❤️ in Vietnam</p>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 
-export default FooterLayout;
+export default FooterC;

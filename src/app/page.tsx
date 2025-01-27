@@ -1,299 +1,255 @@
+import { Carousel2 } from '@/components/carousel2';
+import FooterC from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import MoviesList from '@/components/listmovies/moviesList';
-import { moviesRequestApi } from '@/requestApi/movies/movies';
-import { Box, Container, Divider, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Link from 'next/link';
-import FooterLayout from '@/components/layout/footer';
+import ListMovies from '@/components/listMovies';
+import { HomeSchema } from '@/components/schemas/HomeSchema';
+import { MovieListSchema } from '@/components/schemas/MovieListSchema';
+import { moviesServer } from '@/requestApi/movies/moviesServer';
+import { ChevronRight } from 'lucide-react';
 import { Metadata } from 'next';
-import EmblaCarouselz from '@/components/carasel';
-import CaraselMain from '@/components/caraselMain';
-import { moviesRequestApiClient } from '@/requestApi/movies/moviesClient';
-import TopMovies from '@/components/topMovies';
-import MoviesCard from '@/components/listmovies/moviesCard';
-import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
-import Image from 'next/image';
-
+import Link from 'next/link';
 export const metadata: Metadata = {
-  title: 'Xem phim online chất lượng cao FullHD Vietsub | lò phim',
-  description:
-    'Xem phim hay nhất 2024 cập nhật nhanh nhất, Xem Phim Online HD Vietsub tốt trên nhiều thiết bị - Phim Online Full HD hấp dẫn nhất',
+  robots: 'INDEX,FOLLOW',
 };
 export default async function Home() {
-  // const resTv = await moviesRequestApi.getAllMoviesForUser('phim-bo', 1, 12);
-  const resTv2 = await moviesRequestApi.getAllMoviesForUser('phim-bo', 2, 12);
-  // console.log('---------sdfsdf',resTv.data);
-  const resMovies1 = await moviesRequestApi.getAllMoviesForUser('phim-le', 1, 12);
-  // const resHoatH = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
-  //   method: 'POST',
-  //   body: JSON.stringify({ type: 'hoat-hinh', page: 1, limit: 18 }),
-  // });
-  // const ressH2 = await resHoatH.json();
-  // const resMovies = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
-  //   method: 'POST',
-  //   body: JSON.stringify({ type: 'phim-le', page: 1, limit: 12 }),
-  // });
-  // const ress = await resMovies.json();
-  // const resTV = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/resize`, {
-  //   method: 'POST',
-  //   body: JSON.stringify({ type: 'phim-bo', page: 1, limit: 12 }),
-  // });
-  // const ressTV = await resTV.json();
-  const resHoatHinh = await moviesRequestApi.getAllMoviesForUser('hoat-hinh', 1, 24);
-  const resMoiPhatHanh = await moviesRequestApi.getMovieNew('phim-moi-cap-nhat', 1, 16);
-  const hanQuoc = await moviesRequestApi.getMoviesByGenre(undefined, 1, 24,'han-quoc');
-  const tungCua = await moviesRequestApi.getMoviesByGenre(undefined, 1, 24,'trung-quoc');
-  const hot = await tmdbApiClient.getTop2('day');
+  const newMovies = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('phim-moi-cap-nhat', undefined, 1, 20);
+  const dangChieu = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('danh-sach', 'phim-dang-chieu', 1, 12);
 
+  // console.log('newMovies', newMovies);
+  // console.log('dangChieu', dangChieu);
+  const movies1 = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('danh-sach', 'phim-le', 1, 20);
+  const movies2 = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('danh-sach', 'phim-le', 2, 2);
+  const movies = { ...movies1, items: [...movies1.items, ...movies2.items].slice(0, 12) };
 
-  // console.log('---------ressss', ress);
-  
-  const tv = resTv2?.data?.items;
-  const movies = resMovies1?.data?.items;
-  const resHH = resHoatHinh?.data?.items;
-  // console.log('---------ressss', resHH);
-  const moiPhatHanh = resMoiPhatHanh?.items;
+  const series1 = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('danh-sach', 'phim-bo', 1, 20);
+  const series2 = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('danh-sach', 'phim-bo', 2, 2);
+  const series = { ...series1, items: [...series1.items, ...series2.items].slice(0, 12) };
 
+  // const hq2 = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('quoc-gia', 'han-quoc', 2, 12);
+  const hq = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('quoc-gia', 'han-quoc', 1, 12);
+  // const hq = { ...hq1, items: [...hq1.items, ...hq2.items] }
+  // const hq = await getMoviesByCategory<IModelPaginate<IMovies>>('quoc-gia', 1, 12, 'han-quoc');
+  const tq = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('quoc-gia', 'trung-quoc', 1, 12);
+  const hoatHinh = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('the-loai', 'hoat-hinh', 1, 12);
+  // console.log('page 1', hq);
+  if (
+    newMovies?.status !== 'success' ||
+    dangChieu?.status !== 'success' ||
+    movies?.status !== 'success' ||
+    series?.status !== 'success' ||
+    hq?.status !== 'success' ||
+    tq?.status !== 'success'
+  ) {
+    console.error('API trả về dữ liệu không hợp lệ:', { newMovies, dangChieu, movies, series, hq, tq });
+    return (
+      <div>
+        <h1>Đã xảy ra vấn đề vui lòng quay lại sau!</h1>
+      </div>
+    );
+  }
+  // console.log(hq);
+  // if (!hot || !chieurap || !movies || !series || !hq || !tq) {
+  //   return null;
+  // }
+  // console.log(hq);
 
   return (
     <>
-      <Box>
-        <Header />
-      </Box>
-      <Container maxWidth="xl">
-        <Box sx={{ marginBottom: '1rem', marginTop: '85px' }}>
-          <Typography
-            variant="h4"
-            color={'primary'}
-            sx={{ marginY: '1rem', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-            component={'h1'}
-          >
-            Phim Hàn Xẻng
-          </Typography>
-          {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={hanQuoc?.data?.items} autoPlay={false} />
-        </Box>
-        <Box sx={{ marginBottom: '1rem' }}>
-          <Typography
-            variant="h4"
-            color={'primary'}
-            sx={{ marginY: '1rem', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-            component={'h1'}
-          >
-            Phim Tung Của
-          </Typography>
-          {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={tungCua?.data?.items} autoPlay={false} />
-        </Box>
-        <Box sx={{ marginBottom: '1rem' }}>
-          <Typography
-            variant="h4"
-            color={'primary'}
-            sx={{ marginY: '1rem', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-            component={'h1'}
-          >
-            Phim Hoạt Hình
-          </Typography>
-          {/* <AutoPlay movies={hot?.result}></AutoPlay> */}
-          <EmblaCarouselz movies={resHH} autoPlay={false} />
-        </Box>
-        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 4 }}>
-          <Grid size={{ xs: 12, md: 9 }}>
-            <Divider />
+      <HomeSchema />
+      {hq?.items && hq?.items?.length > 0 && (
+        <MovieListSchema
+          title="Phim Hàn Quốc mới"
+          movies={
+            hq?.items?.map(movie => ({
+              name: movie.name,
+              url: `/phim/${movie.slug}`,
+              image: movie?.thumb_url || '/placeholder.jpg',
+            })) || []
+          }
+        />
+      )}
+      {tq?.items && tq?.items.length > 0 && (
+        <MovieListSchema
+          title="Phim Trung Quốc mới"
+          movies={
+            tq?.items?.map(movie => ({
+              name: movie.name,
+              url: `/phim/${movie.slug}`,
+              image: movie.thumb_url,
+            })) || []
+          }
+        />
+      )}
+      {movies?.items && movies?.items.length > 0 && (
+        <MovieListSchema
+          title="Phim lẻ mới hôm nay"
+          movies={
+            movies?.items?.map(movie => ({
+              name: movie.name,
+              url: `/phim/${movie.slug}`,
+              image: movie.thumb_url,
+            })) || []
+          }
+        />
+      )}
 
-            <Box sx={{ marginBottom: '1rem', marginTop: '1rem' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Typography
-                  variant="h4"
-                  // fontWeight={600}
-                  component={'h1'}
-                  color={'primary'}
-                  sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-                >
-                  Phim Lẻ Mới Cập Nhật
-                </Typography>
-                <Typography
-                  sx={{
-                    '&:hover': {
-                      color: '#ff9e13',
-                      // transition: 'color 0.3s ease',
-                    },
-                  }}
-                  // variant="h7"
-                >
-                  <Link
-                    href="/movies"
-                    style={{
-                      height: '100%',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      marginLeft: '0.4rem',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      // transition: 'color 0.3s ease',
-                    }}
-                  >
-                    Xem thêm
-                    <PlayArrowIcon sx={{ fontSize: '1.2rem', marginLeft: '0.2rem' }} />
+      {series?.items && series?.items.length > 0 && (
+        <MovieListSchema
+          title="Phim bộ mới hôm nay"
+          movies={
+            series?.items?.map(movie => ({
+              name: movie.name,
+              url: `/phim/${movie.slug}`,
+              image: movie.thumb_url,
+            })) || []
+          }
+        />
+      )}
+      <Header />
+      <div>
+        <div className="container mx-auto px-2 mt-[75px]">
+          <section aria-label="Phim Hàn Quốc">
+            <div className="w-full my-5 lg:my-10">
+              <div className="lg:flex items-center justify-center my-2">
+                <div className="lg:max-w-[14%] lg:min-w-[14%] flex justify-between items-center lg:block">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim Hàn Quốc mới</h2>
+                  <Link href="/quoc-gia?q=han-quoc">
+                    <div className="flex items-center group relative overflow-hidden cursor-pointer">
+                      <p className="group-hover:text-primary">Xem toàn bộ</p>
+                      <ChevronRight
+                        className=" group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
                   </Link>
-                </Typography>
-              </Box>
+                </div>
+                <Carousel2 data={hq?.items} />
+              </div>
+            </div>
+          </section>
 
-              <MoviesList movies={movies} column={true} />
-            </Box>
-            <Divider />
-            <Box sx={{ marginBottom: '1rem', marginTop: '1rem' }}>
-              <Box
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                // variant="h5"
-                // sx={{ height: '100%', fontSize: '1rem', marginLeft: '0.2rem' }}
-              >
-                <Typography
-                  variant="h4"
-                  // fontWeight={600}
-                  component={'h1'}
-                  color={'primary'}
-                  sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-                >
-                  Phim Bộ Mới Cập Nhật
-                </Typography>
-                <Typography
-                  sx={{
-                    '&:hover': {
-                      color: '#ff9e13',
-                      // transition: 'color 0.3s ease',
-                    },
-                  }}
-                >
-                  <Link
-                    href="/tv"
-                    style={{
-                      height: '100%',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      marginLeft: '0.4rem',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      // transition: 'color 0.3s ease',
-                    }}
-                  >
-                    Xem thêm
-                    <PlayArrowIcon sx={{ fontSize: '1.2rem', marginLeft: '0.2rem' }} />
+          <section aria-label="Phim Trung Quốc">
+            <div className="w-full my-5 lg:my-10">
+              <div className="lg:flex items-center justify-center my-2">
+                <div className="lg:max-w-[14%] lg:min-w-[14%] flex justify-between items-center lg:block">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim Trung Quốc mới</h2>
+                  <Link href="/quoc-gia?q=trung-quoc">
+                    <div className="flex items-center group relative overflow-hidden cursor-pointer">
+                      <p className="group-hover:text-primary">Xem toàn bộ</p>
+                      <ChevronRight
+                        className=" group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
                   </Link>
-                </Typography>
-              </Box>
-              <MoviesList movies={tv} column={true} />
-            </Box>
-          </Grid>
-          <Grid size={{ xs: 12, md: 3 }}>
-            <Divider />
-            <Box sx={{ margin: '1rem 0' }}>
-              <Typography
-                variant="h4"
-                // fontWeight={600}
-                component={'h1'}
-                color={'primary'}
-                sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-              >
-                Phim mới Cập nhật
-              </Typography>
-              {/* <Box> */}
-              <Grid container sx={{ marginTop: '1rem', maxWidth: '365px' }} columnSpacing={1} rowSpacing={1}>
-                {moiPhatHanh?.map((item: any, index: number) => (
-                  // console.log('----->', item),
-                  <Box
-                    key={item._id}
-                    sx={{
-                      display: 'flex',
-                      maxHeight: { md: '150px' },
-                      alignItems: 'center',
-                      backgroundColor: index % 2 === 0 ? '' : '#1a2a3c',
-                    }}
-                  >
-                    <Grid size={3}>
-                      <Link href={'chi-tiet-phim/' + item.slug}>
-                        <Box
-                          sx={{
-                            maxHeight: { md: '79px' },
-                            overflow: 'hidden',
-                            borderRadius: '8px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <Image
-                            src={
-                              item?.poster_url.startsWith('https')
-                                ? `${item?.poster_url}`
-                                : `${process.env.NEXT_PUBLIC_IMAGE}${item?.poster_url}`
-                            }
-                            // src={`${item?.thumb_url}`}
-                            alt={item?.slug}
-                            loading="lazy"
-                            placeholder="blur"
-                            blurDataURL="data:image/svg+xml;base64,..."
-                            sizes="50vw"
-                            quality={50}
-                            // fill
-                            // objectFit="cover"
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              borderRadius: '8px',
-                              objectFit: 'cover',
-                              transition: 'transform 0.3s ease',
-                            }}
-                            width={40}
-                            height={50}
-                          />
-                        </Box>
-                      </Link>
-                    </Grid>
-                    <Grid size={9} sx={{ marginLeft: '10px' }}>
-                      <Link href={'chi-tiet-phim/' + item.slug}>
-                        <Typography
-                          sx={{
-                            '&:hover': {
-                              color: 'primary.main',
-                            },
-                          }}
-                        >
-                          {item.name}
-                        </Typography>
-                      </Link>
-                      <Typography fontStyle="italic" sx={{ color: '#dddddd', fontSize: '12px' }}>
-                        {item.year}
-                      </Typography>
-                    </Grid>
-                  </Box>
-                ))}
-              </Grid>
-              {/* </Box> */}
-            </Box>
-            <Divider />
+                </div>
+                <Carousel2 data={tq?.items} />
+              </div>
+            </div>
+          </section>
 
-            <Box sx={{ marginTop: '1rem' }}>
-              <Typography
-                variant="h4"
-                // fontWeight={600}
-                component={'h1'}
-                color={'primary'}
-                sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-              >
-                Top xem nhiều
-              </Typography>
-              <TopMovies hot={hot} />
-            </Box>
-          </Grid>
-        </Grid>
-        {/* <Divider /> */}
-      </Container>
-
-      <Box>
-        <FooterLayout />
-      </Box>
+          <section aria-label="Phim Hoạt Hình">
+            <div className="w-full my-5 lg:my-10">
+              <div className="lg:flex items-center justify-center my-2">
+                <div className="lg:max-w-[14%] lg:min-w-[14%] flex justify-between items-center lg:block">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim Hoạt Hình</h2>
+                  <Link href="/the-loai?t=hoat-hinh">
+                    <div className="flex items-center group relative overflow-hidden cursor-pointer">
+                      <p className="group-hover:text-primary">Xem toàn bộ</p>
+                      <ChevronRight
+                        className=" group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
+                  </Link>
+                </div>
+                <Carousel2 data={hoatHinh?.items} />
+              </div>
+            </div>
+          </section>
+          <section aria-label="Phim Mới Cập Nhật">
+            <div className="w-full my-5 lg:my-10">
+              <div className="lg:flex items-center justify-center my-2">
+                <div className="lg:max-w-[14%] lg:min-w-[14%] flex justify-between items-center lg:block">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim Mới Cập Nhật</h2>
+                  <Link href="/phim-moi-cap-nhat">
+                    <div className="flex items-center group relative overflow-hidden cursor-pointer">
+                      <p className="group-hover:text-primary">Xem toàn bộ</p>
+                      <ChevronRight
+                        className=" group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
+                  </Link>
+                </div>
+                <Carousel2 data={newMovies?.items} />
+              </div>
+            </div>
+          </section>
+          <section aria-label="Phim Đang Chiếu">
+            <div className="w-full my-5 lg:my-10">
+              <div className="lg:flex items-center justify-center my-2">
+                <div className="lg:max-w-[14%] lg:min-w-[14%] flex justify-between items-center lg:block">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim Đang Chiếu</h2>
+                  <Link href="#">
+                    <div className="flex items-center group relative overflow-hidden cursor-pointer">
+                      <p className="group-hover:text-primary">Xem toàn bộ</p>
+                      <ChevronRight
+                        className=" group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
+                  </Link>
+                </div>
+                <Carousel2 data={dangChieu?.items} />
+              </div>
+            </div>
+          </section>
+          <section aria-label="Phim Lẻ">
+            <div className="w-full">
+              <div className=" py-4">
+                <div className="flex items-center">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim lẻ mới hôm nay</h2>
+                  <Link href="/phim-le">
+                    <div className="flex items-center group relative overflow-hidden ml-4 cursor-pointer pr-24">
+                      <h3 className="text-sm absolute left-0 opacity-0 -translate-x-full group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap group-hover:text-primary">
+                        Xem thêm
+                      </h3>
+                      <ChevronRight
+                        className="transition-transform duration-300 group-hover:translate-x-[calc(100%+3rem)] group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
+                  </Link>
+                </div>
+              </div>
+              <ListMovies data={movies?.items} />
+            </div>
+          </section>
+          <section aria-label="Phim Bộ">
+            <div className="w-full">
+              <div className=" py-4">
+                <div className="flex items-center">
+                  <h2 className="text-xl lg:text-3xl font-semibold my-4 text-primary">Phim bộ mới hôm nay</h2>
+                  <Link href="/phim-bo">
+                    <div className="flex items-center group relative overflow-hidden ml-4 cursor-pointer pr-24">
+                      <h3 className="text-sm absolute left-0 opacity-0 -translate-x-full group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap group-hover:text-primary">
+                        Xem thêm
+                      </h3>
+                      <ChevronRight
+                        className="transition-transform duration-300 group-hover:translate-x-[calc(100%+3rem)] group-hover:text-primary" // Thay đổi ở đây
+                        size={20}
+                      />
+                    </div>
+                  </Link>
+                </div>
+              </div>
+              <ListMovies data={series?.items} />
+            </div>
+          </section>
+        </div>
+      </div>
+      <FooterC />
     </>
   );
 }

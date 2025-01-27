@@ -1,279 +1,200 @@
 'use client';
-import React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-// import Select from '@mui/material/Select';
-import { CircularProgress, useMediaQuery, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import JWPlayer from '@jwplayer/jwplayer-react';
-import TopMovies from './topMovies';
+import { Button } from './ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { usePlayerStore } from '@/app/store/playerStore';
+import { usePathname, useRouter } from 'next/navigation';
+import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 
-import { tmdbApiClient } from '@/requestApi/tmdb/tmdbApiClient';
-
-const listServer = [{ name: 'Server 1' }, { name: 'Server 2' }, { name: 'server 3' }];
-const IframeMovies = ({ res, tmdb, hot }: { res: any; tmdb: any; hot?: any[] }) => {
-  const [activeEpisodeIndex, setActiveEpisodeIndex] = useState<number | null>(0);
-  const [activeServer, setActiveServer] = useState<number | null>(0);
-  const currentEpisodeUrl = useRef<string | null>(null);
+const Iframe = ({ movie }: { movie: IMovie }) => {
+  // console.log('movie--1', movie);
+  const pathname = usePathname();
+  // console.log('pathname', pathname);
+  const router = useRouter();
+  const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
-  const [server, setServer] = useState<number>(1);
-  const [epiNguonC, setEpiNguonC] = useState<any>(null);
+  // const [sub, setSub] = useState(movie?.episodes[0]?.serverData[0]?.sub);
+  // const [currentEpisodeUrl, setCurrentEpisodeUrl] = useState(movie?.episodes[0]?.serverData[0]?.link);
+  // const [activeEpisodeIndex, setActiveEpisodeIndex] = useState<number | null>(0);
+  // const [activeServer, setActiveServer] = useState<number | null>(0);
+  const {
+    activeServer,
+    activeEpisodeIndex,
+    currentEpisodeUrl,
+    sub,
+    path,
+    setActiveServer,
+    setActiveEpisodeIndex,
+    setCurrentEpisodeUrl,
+    // setSub,
+    setPath,
+  } = usePlayerStore();
 
-  const episodes = res?.episodes;
-  // console.log('---->movies:', movies);
-  const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
-  // const isLargeScreen = '1024px';
+  const playerWidth = isMobile ? '100%' : '100vw';
+  const playerHeight = isMobile ? '100%' : '85vh';
 
   useEffect(() => {
-    currentEpisodeUrl.current = episodes[0].server_data[0].link_m3u8;
-    setLoading(false);
-    // console.log('---->movies:', currentEpisodeUrl);
-  }, []);
-  // console.log('vtt_blob:', vtt_blob);
-  const size = res?.movie?.episode_total > 1 ? 12 : 12;
-  // console.log('---->episodes:', size);
+    // console.log('pathname', pathname, path);
+    if (pathname !== path) {
+      if (movie?.episodes[0]?.items?.length > 0) {
+        // setSub(movie.episodes[0].serverData[0].sub);
+        setCurrentEpisodeUrl(movie?.episodes[0]?.items[0].embed);
+        setActiveEpisodeIndex(0);
+      }
+      setPath(pathname);
+    }
+    if (movie?.episodes[0]?.items[0] && currentEpisodeUrl === null) {
+      // setSub(movie.episodes[0].serverData[0].sub);
+      setCurrentEpisodeUrl(movie?.episodes[0]?.items[0]?.embed);
+      setActiveEpisodeIndex(0);
+    }
+  }, [movie, setCurrentEpisodeUrl]);
   const playlist = [
     {
-      file: currentEpisodeUrl.current,
+      file: currentEpisodeUrl,
+      title: movie?.name,
+      image: `${process.env.NEXT_PUBLIC_THUMB}${movie?.poster_url}`,
+      tracks: [
+        {
+          file: sub || 'sub',
+          label: 'Vietnamese',
+          kind: 'captions',
+          default: true,
+        },
+      ],
     },
   ];
-  const handleServer = async (index: number, slug?: string) => {
-    setLoading(true);
-    if (index === 1) {
-      const res = await tmdbApiClient.getNguonCURL(slug);
-      // console.log('---->res:', res);
-      if (res.status === 'error') {
-        alert('Server đang bảo trì, vui lòng chọn server khác');
-        setActiveServer(0);
-        setServer(1);
-        setLoading(false);
-        return;
-      }
-      currentEpisodeUrl.current = res[0]?.embed;
-      setEpiNguonC(res);
-
-      // console.log('---->res:', currentEpisodeUrl);
-    } else {
-      currentEpisodeUrl.current = episodes[0].server_data[0].link_m3u8;
-    }
-    setServer(index + 1);
-    setLoading(false);
-  };
-  // console.log('---->playlist:', playlist);
+  // console.log('playlist', isMobile, currentEpisodeUrl);
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12, sm: 12, md: 12, lg: size }}>
-          {server === 1 && (
-            <Box sx={{ height: { md: 'auto', xs: 'auto', lg: 'auto' }, width: { lg: '100%' } }}>
-              {loading && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-                  <CircularProgress />
-                </Box>
-              )}
-              {server === 1 && loading == false && currentEpisodeUrl.current && (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <JWPlayer
-                    key={currentEpisodeUrl.current}
-                    library="https://cdn.jwplayer.com/libraries/1pOrUWNs.js"
-                    playlist={playlist}
-                    onReady={() => setLoading(false)}
-                    // onError={() => setLoading(false)}
-                    onLoad={() => setLoading(false)}
-                    // onTime={event => {
-                    //   const player = jwplayer();
-                    //   const currentTime = event.currentTime;
-                    //   if (currentTime >= 900.8 && currentTime < 930) {
-                    //     const currentPlayerTime = player.getCurrentTime();
-
-                    //     // Chỉ seek nếu thời gian hiện tại của player chưa ở 930.99
-                    //     if (currentPlayerTime < 930.99) {
-                    //       player.seek(930.99); // Chỉ seek nếu không ở vị trí mong muốn
-                    //     }
-                    //   }
-                    // }}
-                    config={{
-                      pipIcon: 'enabled',
-                      playbackRateControls: true,
-                      displaydescription: true,
-                      displaytitle: true,
-                      skin: {
-                        name: 'myskin',
-                      },
-                      timeSlider: {
-                        legacy: true,
-                      },
-
-                      width: isLargeScreen ? '1720px' : '100%',
-                      height: isLargeScreen ? 680 : 'auto',
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-          )}
-          {server === 2 && loading == false && (
-            <Box sx={{ height: { xs: '30vh', sm: '50vh', md: '60vh', lg: '80vh' }, width: '100%' }}>
-              <iframe
-                src={
-                  currentEpisodeUrl?.current?.startsWith('https')
-                    ? currentEpisodeUrl?.current
-                    : `https://example.com/${currentEpisodeUrl.current}`
-                }
-                allowFullScreen
-                onLoad={() => setLoading(false)}
-                style={{ border: 'none', height: '100%', width: '100%' }}
-              ></iframe>
-            </Box>
-          )}
-          {server === 3 && loading == false && (
-            <Box sx={{ height: { xs: '40vh', sm: '50vh', md: '60vh', lg: '80vh' }, width: '100%' }}>
-              <iframe
-                src={
-                  tmdb.type === 'movie'
-                    ? `${process.env.NEXT_PUBLIC_SUPEREMBED}?video_id=${tmdb?.id}&tmdb=1`
-                    : `${process.env.NEXT_PUBLIC_SUPEREMBED}?video_id=${tmdb?.id}&tmdb=1&s=1&e=1`
-                }
-                allowFullScreen
-                onLoad={() => setLoading(false)}
-                style={{ border: 'none', height: '100%', width: '100%' }}
-              ></iframe>
-            </Box>
-          )}
-          <Box sx={{ display: 'flex', gap: 2, margin: '0.9rem 0' }}>
-            {listServer?.map((item: any, index: number) => (
+      <div>
+        {loading && <div className="min-h-[60vh] text-center">Loading...</div>}
+        {/* {JSON.stringify(currentEpisodeUrl)} */}
+        {(currentEpisodeUrl && currentEpisodeUrl?.includes('?url=')) || currentEpisodeUrl?.includes('?hash=') ? (
+          <AspectRatio ratio={22 / 9} className=" w-full">
+            <iframe
+              key={currentEpisodeUrl}
+              src={currentEpisodeUrl.startsWith('https') ? currentEpisodeUrl : `https://example.com/${currentEpisodeUrl}`}
+              allowFullScreen
+              onLoad={() => setLoading(false)}
+              className="w-full h-full"
+              // style={{ border: 'none', height: '100%', width: '100%' }}
+            ></iframe>
+          </AspectRatio>
+        ) : (
+          <JWPlayer
+            key={currentEpisodeUrl}
+            library="https://cdn.jwplayer.com/libraries/1pOrUWNs.js"
+            playlist={playlist}
+            onReady={() => setLoading(false)}
+            onError={() => setLoading(false)}
+            onLoad={() => setLoading(false)}
+            config={{
+              pipIcon: 'enabled',
+              playbackRateControls: true,
+              displaydescription: true,
+              displaytitle: true,
+              // skin: {
+              //   name: 'myskin',
+              // },
+              timeSlider: {
+                legacy: true,
+              },
+              width: playerWidth,
+              height: playerHeight,
+            }}
+          />
+        )}
+      </div>
+      <div className="flex flex-col justify-start items-start gap-4 mt-2 container mx-auto px-2">
+        <div className="flex gap-2">
+          {movie?.episodes.length > 1 &&
+            movie?.episodes.map((item, index) => (
               <Button
-                variant="contained"
+                variant="outline"
+                key={index}
                 onClick={() => {
-                  handleServer(index, res?.movie?.slug);
                   setActiveServer(index);
-                  // setLoading(true);
+                  setCurrentEpisodeUrl(item?.items[0]?.embed);
+                  setActiveEpisodeIndex(0);
                 }}
-                color={activeServer === index ? 'primary' : 'inherit'}
-                key={item.name}
+                className={`${activeServer === index ? 'border-primary text-primary' : ' text-white'} rounded-xl`}
               >
-                {item.name}
+                {item?.server_name}
               </Button>
             ))}
+        </div>
+        {movie?.total_episodes > 1 &&
+          movie?.episodes.map((item, index) => (
+            <>
+              {activeServer === index && (
+                <div
+                  className="grid gap-2 w-full"
+                  style={{
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                  }}
+                >
+                  {item?.items.map((item2, index2) => {
+                    const episodeNumber = item2.slug.includes('tap-') ? item2.slug.replace('tap-', '') : item2.slug;
+                    return (
+                      <Button
+                        key={item2.slug}
+                        onClick={() => {
+                          // setSub(item2?.sub);
 
-            {/* <Button
-              variant="contained"
-              onClick={() => {
-                setServer(1);
-                setActiveServer(0);
-                // setLoading(true);
-              }}
-              color={activeServer === 0 ? 'primary' : 'inherit'}
-            >
-              Server 1
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setServer(2);
-                setActiveServer(1);
-              }}
-              color={activeServer === 1 ? 'primary' : 'inherit'}
-            >
-              Server 2
-            </Button> */}
-          </Box>
-          {res?.movie.episode_total > 1 && server != 3 && (
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', marginTop: '2rem', marginX: { xs: '0.3rem' } }}>
-              <Box sx={{ minWidth: 120, width: '100%' }}>
-                <Box>
-                  <Typography variant="h6">Danh sách tập phim</Typography>
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      width: '100%',
-                      maxHeight: { xs: '30vh', sm: '40vh', md: '60vh' },
-                      overflowY: 'auto',
-                      overflowX: 'hidden',
-                    }}
-                  >
-                    {server === 1 &&
-                      episodes[0].server_data.map((episode: any, index: number) => (
-                        <Grid key={episode.slug} size={{ xs: 3, sm: 2, md: 2, lg: 1.5 }}>
-                          <Button
-                            key={episode.slug}
-                            variant="contained"
-                            onClick={async () => {
-                              // console.log('---->index:', episode);
-                              setActiveEpisodeIndex(index);
-                              // await changeSub(episode?.subtitle, episode?.url);
-                              currentEpisodeUrl.current = episode?.link_m3u8;
-                            }}
-                            sx={{
-                              width: '100%',
-                              minWidth: '20px',
-                            }}
-                            color={activeEpisodeIndex === index ? 'primary' : 'inherit'}
-                          >
-                            {episode.name}
-                          </Button>
-                        </Grid>
-                      ))}
-                    {server === 2 &&
-                      epiNguonC?.map((episode: any, index: number) => (
-                        <Grid key={episode.slug} size={{ xs: 3, sm: 2, md: 2, lg: 1.5 }}>
-                          <Button
-                            key={episode.slug}
-                            variant="contained"
-                            onClick={async () => {
-                              // console.log('---->index:', episode);
-                              setActiveEpisodeIndex(index);
-                              // await changeSub(episode?.subtitle, episode?.url);
-                              currentEpisodeUrl.current = episode?.embed;
-                            }}
-                            sx={{
-                              width: '100%',
-                              minWidth: '20px',
-                            }}
-                            color={activeEpisodeIndex === index ? 'primary' : 'inherit'}
-                          >
-                            {episode.name}
-                          </Button>
-                        </Grid>
-                      ))}
-                  </Grid>
-                </Box>
-              </Box>
-            </Box>
-          )}
-        </Grid>
+                          setCurrentEpisodeUrl(item2?.embed);
+                          router.push(`/xem-phim/${movie?.slug}?tap=${episodeNumber}`);
+                          setActiveEpisodeIndex(index2);
+                        }}
+                        className={`${
+                          activeEpisodeIndex === index2 ? 'bg-primary' : 'bg-2 text-white'
+                        } rounded-xl min-h-11 hover:text-secondary`}
+                      >
+                        {item2.name}
+                      </Button>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          ))}
 
-        {/* <Grid size={12}> */}
+        {movie?.total_episodes < 2 &&
+          movie?.episodes.map((item, index) => (
+            <>
+              {activeServer === index && (
+                <div
+                 className='flex gap-3 justify-center items-center'
+                >
+                  {item?.items.length > 1 &&
+                    item?.items.map((item2, index2) => {
+                      // const episodeNumber = item2.slug.includes('tap-') ? item2.slug.replace('tap-', '') : item2.slug;
+                      return (
+                        <Button
+                          key={item2.slug}
+                          onClick={() => {
+                            // setSub(item2?.sub);
 
-        {/* </Grid> */}
-        {/* <Grid size={{ xs: 12, lg: 3 }} sx={{ display: { xs: 'none', lg: res?.movie?.episode_total > 1 ? 'block' : 'none' } }}>
-          <Box sx={{ marginTop: '1rem' }}>
-            <Typography
-              variant="h4"
-              // fontWeight={600}
-              component={'h1'}
-              color={'primary'}
-              sx={{ display: 'flex', fontSize: { xs: '1.15rem', sm: '1.25rem', md: '1.5rem' }, textTransform: 'uppercase' }}
-            >
-              Top xem nhiều
-            </Typography>
-            <TopMovies hot={hot} />
-          </Box>
-        </Grid> */}
-      </Grid>
+                            setCurrentEpisodeUrl(item2?.embed);
+                            // router.push(`/xem-phim/${movie?.movie?.kkslug}?=$`);
+                            setActiveEpisodeIndex(index2);
+                          }}
+                          className={`${
+                            activeEpisodeIndex === index2 ? 'bg-primary' : 'bg-2 text-white'
+                          } rounded-xl min-h-11 hover:text-secondary`}
+                        >
+                          {item2.name}
+                        </Button>
+                      );
+                    })}
+                </div>
+              )}
+            </>
+          ))}
+      </div>
     </>
   );
 };
 
-export default IframeMovies;
+export default Iframe;

@@ -1,20 +1,19 @@
-import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 
 const NotFound = () => {
   return (
-    <Box sx={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center',gap:2 }}>
-        <Typography variant="h2" fontWeight={700}>
+    <div className='flex justify-center items-center h-[100vh]'>
+      <div className='flex flex-col gap-3'>
+        <h2 className='text-3xl'>
           404
-        </Typography>
-        <Typography variant="h4" fontWeight={500}>
+        </h2>
+        <h3 >
           Trang không tồn tại
-        </Typography>
+        </h3>
         <Link href="/">Quay lại trang chủ</Link>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
