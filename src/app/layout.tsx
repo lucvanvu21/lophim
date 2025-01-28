@@ -4,7 +4,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { baseOpenGraph } from './share-meta';
 import Script from 'next/script';
-
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const geistSans = Inter({
   variable: '--font-geist-sans',
   subsets: ['vietnamese'],
@@ -78,6 +79,8 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Toaster />
+        <Analytics/>
+        <SpeedInsights/>
        {children}
       </body>
     </html>
