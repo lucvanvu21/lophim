@@ -19,7 +19,7 @@ const geistMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: {
     template: '%s | lophim',
-    default: 'Phim tốc độ | Phim Mới | Phim HD | Xem phim nhanh | Phim VietSub ',
+    default: 'Lò phim | Phim Mới | Phim HD | Xem phim nhanh | Phim VietSub ',
   },
   description:
     'lophim - Website xem phim trực tuyến chất lượng cao, cập nhật phim mới vietsub mỗi ngày, xem miễn phí hàng nghìn bộ phim HD/4K đa thể loại.',
