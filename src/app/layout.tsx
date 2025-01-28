@@ -6,6 +6,8 @@ import { baseOpenGraph } from './share-meta';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import ProvidersLoading from '@/components/loadingProvider';
+// import NextNProgress from 'nextjs-progressbar';
 const geistSans = Inter({
   variable: '--font-geist-sans',
   subsets: ['vietnamese'],
@@ -81,7 +83,8 @@ export default function RootLayout({
         <Toaster />
         <Analytics />
         <SpeedInsights />
-        {children}
+        {/* <NextNProgress color="#bd1c0e" height={4} /> */}
+        <ProvidersLoading>{children}</ProvidersLoading>
       </body>
     </html>
   );

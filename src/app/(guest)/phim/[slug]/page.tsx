@@ -1,7 +1,6 @@
 // import { Carousel2 } from '@/components/carousel2';
 // import DetailSeason from '@/components/detailSeason';
 import { Carousel2 } from '@/components/carousel2';
-import { OffLoading } from '@/components/globalLoading';
 import ImageCard from '@/components/imageCard';
 import ListEpi from '@/components/listEpi';
 import { MovieSchema } from '@/components/schemas/MovieSchema';
@@ -226,7 +225,6 @@ const ChiTietPhim = async ({ params }: { params: { slug: string } }) => {
           </div>
         </div>
       </div>
-      <OffLoading />
     </>
   );
 };

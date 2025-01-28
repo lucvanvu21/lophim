@@ -8,11 +8,9 @@ import { useRouter } from 'next/navigation';
 import debounce from 'lodash/debounce';
 import Image from 'next/image';
 import { moviesServer } from '@/requestApi/movies/moviesServer';
-import { useLoadingStore } from '@/app/store/loadingStore';
 
 const SearchX = () => {
   const router = useRouter();
-  const { setLoading, globalLoading } = useLoadingStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -82,10 +80,7 @@ const SearchX = () => {
     };
   }, []);
   const handleMovieClick = async movieSlug => {
-    setLoading(true); // Hiển thị loading
     await router.push(`/phim/${movieSlug}`); // Chuyển hướng
-    // setLoading(false); // Tắt loading
-  
     setShowResults(false); // Ẩn kết quả tìm kiếm
     setSearchQuery(''); // Xóa nội dung tìm kiếm
   };
@@ -122,7 +117,7 @@ const SearchX = () => {
           </Button>
         </div>
       </form>
-      {showResults && !globalLoading && (
+      {showResults && (
         <div className="absolute top-full mt-1 w-full bg-background border rounded-md shadow-lg z-50">
           <ScrollArea className="h-[400px]">
             {searchResults.length > 0 ? (
