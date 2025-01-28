@@ -6,17 +6,20 @@ import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import debounce from 'lodash/debounce';
-import Link from 'next/link';
 import Image from 'next/image';
 import { moviesServer } from '@/requestApi/movies/moviesServer';
+import { useLoadingStore } from '@/app/store/loadingStore';
 
 const SearchX = () => {
   const router = useRouter();
+  const { setLoading, globalLoading } = useLoadingStore();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const searchContainerRef = useRef(null); 
+  const searchContainerRef = useRef(null);
+  // console.log('isLoading', globalLoading);
 
   const debouncedSearch = useCallback(
     debounce(async query => {
@@ -73,23 +76,25 @@ const SearchX = () => {
   };
 
   useEffect(() => {
-    
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-// console.log('searchQuery:---->', showResults);
+  const handleMovieClick = async movieSlug => {
+    setLoading(true); // Hiển thị loading
+    await router.push(`/phim/${movieSlug}`); // Chuyển hướng
+    // setLoading(false); // Tắt loading
+  
+    setShowResults(false); // Ẩn kết quả tìm kiếm
+    setSearchQuery(''); // Xóa nội dung tìm kiếm
+  };
+  // console.log('searchQuery:---->', showResults);
   return (
     <div ref={searchContainerRef} className="relative w-full lg:min-w-[300px]">
       <form onSubmit={handleSearch} className="flex items-center">
         <div className="relative w-full">
-          <Input
-            placeholder="Tìm kiếm phim..."
-            value={searchQuery}
-            onChange={handleInputChange}
-            className="w-full pl-9"
-          />
+          <Input placeholder="Tìm kiếm phim..." value={searchQuery} onChange={handleInputChange} className="w-full pl-9" />
           {isLoading && (
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -116,33 +121,26 @@ const SearchX = () => {
           </Button>
         </div>
       </form>
-      {showResults && searchResults && (
+      {showResults && !globalLoading && (
         <div className="absolute top-full mt-1 w-full bg-background border rounded-md shadow-lg z-50">
           <ScrollArea className="h-[400px]">
             {searchResults.length > 0 ? (
               searchResults.map((movie: IMovie) => (
-                <Link
+                <div
                   key={movie.id}
-                  href={`/phim/${movie.slug}`}
-                  onClick={() => {
-                    setShowResults(false);
-                    setSearchQuery('');
-                  }}
+                  // href={`/phim/${movie.slug}`}
+                  onClick={() => handleMovieClick(movie.slug)}
                   className="grid grid-cols-[minmax(48px,1fr),minmax(80px,4fr)] p-2 hover:bg-accent cursor-pointer"
                 >
                   <div className="w-12 h-16 relative mr-2">
-                    <Image
-                      src={movie.thumb_url || '/placeholder.jpg'}
-                      alt={movie.name}
-                      fill
-                      className="object-cover rounded"
-                    />
+                    <Image src={movie.thumb_url || '/placeholder.jpg'} alt={movie.name} fill className="object-cover rounded" />
                   </div>
                   <div>
                     <h4 className="font-medium line-clamp-1 text-sm">{movie.name}</h4>
+                    <h4 className="font-medium line-clamp-1 text-sm text-muted-foreground">{movie.original_name}</h4>
                     <p className="text-sm text-muted-foreground">{movie.current_episode}</p>
                   </div>
-                </Link>
+                </div>
               ))
             ) : (
               <div className="p-4 text-sm text-muted-foreground">Không tìm thấy kết quả</div>

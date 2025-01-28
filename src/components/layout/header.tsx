@@ -28,6 +28,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 import { MobileHeader } from './mobile-header';
 import SearchX from './search';
+import GlobalLoading from '../globalLoading';
 
 export const pages = [
   {
@@ -162,23 +163,26 @@ const Header = () => {
       </NavigationMenu>
     </>
   );
-
   return (
-    <header
-      className={`h-16 fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
-        isAtTop ? 'bg-transparent' : 'bg-[#232d37] shadow-md'
-      }`}
-    >
-      <div className="px-4 md:px-12 h-full flex justify-between items-center">
-        {!isMobile && <DesktopNav />}
-        <NavigationMenu>
-          <NavigationMenuList>
-            <SearchX />
-          </NavigationMenuList>
-        </NavigationMenu>
-        {isMobile && <MobileHeader pages={pages} />}
-      </div>
-    </header>
+    <>
+      <GlobalLoading />
+
+      <header
+        className={`h-16 fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
+          isAtTop ? 'bg-transparent' : 'bg-[#232d37] shadow-md'
+        }`}
+      >
+        <div className="px-4 md:px-12 h-full flex justify-between items-center">
+          {!isMobile && <DesktopNav />}
+          <NavigationMenu>
+            <NavigationMenuList>
+              <SearchX />
+            </NavigationMenuList>
+          </NavigationMenu>
+          {isMobile && <MobileHeader pages={pages} />}
+        </div>
+      </header>
+    </>
   );
 };
 

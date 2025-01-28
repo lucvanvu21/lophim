@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/phim/${post.slug}`,
     lastModified: post.modified,
     changeFrequency: 'weekly',
-    priority: 0.8,
+    priority: 0.9,
   }));
 
   return [

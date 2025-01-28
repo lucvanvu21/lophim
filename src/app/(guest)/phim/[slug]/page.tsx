@@ -1,6 +1,7 @@
 // import { Carousel2 } from '@/components/carousel2';
 // import DetailSeason from '@/components/detailSeason';
 import { Carousel2 } from '@/components/carousel2';
+import { OffLoading } from '@/components/globalLoading';
 import ImageCard from '@/components/imageCard';
 import ListEpi from '@/components/listEpi';
 import { MovieSchema } from '@/components/schemas/MovieSchema';
@@ -32,20 +33,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: `Phim ${movie.name} (${year}) - ${movie.original_name} - FullHD `,
       description: `Xem phim ${movie.name} - ${movie.description.slice(0, 155)}...`,
       robots: 'INDEX,FOLLOW',
-      keywords: [
-        movie.name,
-        `phim ${movie.name}`,
-        movie.original_name,
-        movie.category['2'].list.map(genre => genre.name).join(', '),
-        `phim ${movie.name}`,
-      ],
+      keywords: [`phim ${movie.name}`, movie.original_name, movie.category['2'].list.map(genre => genre.name).join(', ')],
       alternates: {
         canonical: url,
       },
       openGraph: {
         title: movie.name,
         description: movie.description,
-        type: 'video.movie',
+        type: 'website',
         images: [
           {
             url: movie.thumb_url || '/placeholder.png',
@@ -112,6 +107,7 @@ const ChiTietPhim = async ({ params }: { params: { slug: string } }) => {
             width={0}
             height={0}
             sizes="100vw"
+            loading="lazy"
             quality={100}
             style={{
               objectFit: 'cover',
@@ -230,6 +226,7 @@ const ChiTietPhim = async ({ params }: { params: { slug: string } }) => {
           </div>
         </div>
       </div>
+      <OffLoading />
     </>
   );
 };

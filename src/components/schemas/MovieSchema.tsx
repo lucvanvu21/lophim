@@ -12,6 +12,7 @@ interface MovieSchemaProps {
   genre?: string[];
 }
 export function MovieSchema(props: MovieSchemaProps) {
+  // console.log('props', props);
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Movie',
@@ -25,14 +26,17 @@ export function MovieSchema(props: MovieSchemaProps) {
     //   name: props.director
     // },
     actor:
-     props.actors && props.actors.length > 0
+      props.actors && props.actors.length > 0
         ? props.actors?.map(actor => ({
             '@type': 'Person',
             name: actor,
           }))
         : '',
-    duration: `PT${props.duration}M`,
-    genre: props.genre,
+    // duration: `PT${props.duration}M`,
+    genre: props.genre.map(genre => ({
+      '@type': 'Genre',
+      name: genre,
+    })),
     // aggregateRating: {
     //   '@type': 'AggregateRating',
     //   ratingValue: props.rating,

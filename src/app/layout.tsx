@@ -4,8 +4,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { baseOpenGraph } from './share-meta';
 import Script from 'next/script';
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 const geistSans = Inter({
   variable: '--font-geist-sans',
   subsets: ['vietnamese'],
@@ -19,10 +19,10 @@ const geistMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: {
     template: '%s | lophim',
-    default: 'Lò phim | Phim Mới | Phim HD | Xem phim nhanh | Phim VietSub ',
+    default: 'Lò phim -Phim hay cả lò - Xem phim chất lượng cao',
   },
   description:
-    'lophim - Website xem phim trực tuyến chất lượng cao, cập nhật phim mới vietsub mỗi ngày, xem miễn phí hàng nghìn bộ phim HD/4K đa thể loại.',
+    'lophim -xem phim mới nhất cập nhật liên tục nhiều thể loại , phim chiếu rạp, phim hành động, phim kinh dị, phim hài, phim hoạt hình, phim bộ hay nhất, phim lẻ hay nhất, phim chiếu rạp mới nhất',
   keywords: [
     'lophim',
     'phim hay',
@@ -63,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-QZXHVDDF4D" strategy="afterInteractive"></Script>
         <Script id="google-analytics" strategy="afterInteractive">
@@ -78,9 +78,9 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Toaster />
-        <Analytics/>
-        <SpeedInsights/>
-       {children}
+        <Analytics />
+        <SpeedInsights />
+        {children}
       </body>
     </html>
   );
