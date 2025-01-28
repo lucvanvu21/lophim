@@ -139,7 +139,7 @@ const ChiTietPhim = async ({ params }: { params: { slug: string } }) => {
             </div>
 
             <div className="flex  flex-col items-center justify-center md:items-start sm:mx-2  md:gap-3">
-              <h1 className="text-xl md:text-3xl lg:text-5xl  font-medium">{movie?.original_name}</h1>
+              <h2 className="text-xl md:text-3xl lg:text-5xl  font-medium">{movie?.original_name}</h2>
               <h1 className="text-xl md:text-3xl text-gray-300 ">
                 {movie?.name} (
                 <Link href={'/nam?n=' + year} className="text-primary">

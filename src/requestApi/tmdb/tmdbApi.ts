@@ -53,6 +53,7 @@ export const tmdbApiClient = {
   },
   getRate: async (title: string, year: string) => {
     // console.log('---->id:', id);
+    // console.log('---->title:', title,year);
     try {
       const rate = await fetch(`https://www.omdbapi.com/?t=${title}&y=${year}&apikey=a332dc0d`, {
         method: 'GET',

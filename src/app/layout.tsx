@@ -25,9 +25,10 @@ export const metadata: Metadata = {
     'lophim -xem phim mới nhất cập nhật liên tục nhiều thể loại , phim chiếu rạp, phim hành động, phim kinh dị, phim hài, phim hoạt hình, phim bộ hay nhất, phim lẻ hay nhất, phim chiếu rạp mới nhất',
   keywords: [
     'lophim',
+    'lò phim',
     'phim hay',
     'Phim Trung Quốc',
-    ' Phim Hàn Quốc',
+    'Phim Hàn Quốc',
     'Phim chiếu rạp',
     'Phim hành động',
     'Phim kinh di',

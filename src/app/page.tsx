@@ -43,7 +43,7 @@ export default async function Home() {
     console.error('API trả về dữ liệu không hợp lệ:', { newMovies, dangChieu, movies, series, hq, tq });
     return (
       <div>
-        <h1>Đã xảy ra vấn đề vui lòng quay lại sau!</h1>
+        <h2>Đã xảy ra vấn đề vui lòng quay lại sau!</h2>
       </div>
     );
   }
@@ -106,6 +106,7 @@ export default async function Home() {
         />
       )}
       <Header />
+      <h1 style={{ display: 'none' }}>LoPhim - Phim hay cả lò - Xem Phim Mới HD Online Vietsub</h1>
       <div>
         <div className="container mx-auto px-2 mt-[75px]">
           <section aria-label="Phim Hàn Quốc">
