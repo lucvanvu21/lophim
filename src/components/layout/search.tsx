@@ -115,9 +115,10 @@ const SearchX = () => {
             type="submit"
             variant="ghost"
             size="icon"
+            aria-label="search"
             className="absolute left-1 top-1/2 transform -translate-y-1/2 hover:bg-inherit hover:text-primary "
           >
-            <Search className="h-4 w-4 " />
+            <Search className="h-4 w-4" />
           </Button>
         </div>
       </form>

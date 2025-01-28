@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 
 const ListMovies = ({ data, paginate }: { data: IMovie[]; paginate?: IPaginate }) => {
 
+  // console.log('data', data);
   const x = paginate?.items_per_page > 15 ? 'xl:grid-cols-8' : 'xl:grid-cols-6';
   return (
     <>
@@ -21,7 +22,7 @@ const ListMovies = ({ data, paginate }: { data: IMovie[]; paginate?: IPaginate }
                 </div>
                 <div className="mt-1">
                   <h2 className="text-md line-clamp-1 hover:text-primary">{item.name}</h2>
-                  <h2 className="text-md text-gray-500 line-clamp-1 hover:text-primary">{item.original_name}</h2>
+                  <h2 className="text-md text-gray-400 line-clamp-1 hover:text-primary">{item.original_name}</h2>
                   {/* <p className="text-sm text-gray-500">{item.year}</p> */}
                 </div>
               </Link>
