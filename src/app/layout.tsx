@@ -37,7 +37,6 @@ export const metadata: Metadata = {
     'Xem phim Online',
   ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://lophim.site'),
-  // authors: [{ name: 'Tên tác giả' }],
   openGraph: {
     ...baseOpenGraph,
     title: 'LoPhim - Xem phim chất lượng cao',
