@@ -2,8 +2,6 @@ import { Carousel2 } from '@/components/carousel2';
 import FooterC from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import ListMovies from '@/components/listMovies';
-import { HomeSchema } from '@/components/schemas/HomeSchema';
-import { MovieListSchema } from '@/components/schemas/MovieListSchema';
 import { moviesServer } from '@/requestApi/movies/moviesServer';
 import { ChevronRight } from 'lucide-react';
 import { Metadata } from 'next';
@@ -55,56 +53,7 @@ export default async function Home() {
 
   return (
     <>
-      <HomeSchema />
-      {hq?.items && hq?.items?.length > 0 && (
-        <MovieListSchema
-          title="Phim Hàn Quốc mới"
-          movies={
-            hq?.items?.map(movie => ({
-              name: movie.name,
-              url: `/phim/${movie.slug}`,
-              image: movie?.thumb_url || '/placeholder.jpg',
-            })) || []
-          }
-        />
-      )}
-      {tq?.items && tq?.items.length > 0 && (
-        <MovieListSchema
-          title="Phim Trung Quốc mới"
-          movies={
-            tq?.items?.map(movie => ({
-              name: movie.name,
-              url: `/phim/${movie.slug}`,
-              image: movie.thumb_url,
-            })) || []
-          }
-        />
-      )}
-      {movies?.items && movies?.items.length > 0 && (
-        <MovieListSchema
-          title="Phim lẻ mới hôm nay"
-          movies={
-            movies?.items?.map(movie => ({
-              name: movie.name,
-              url: `/phim/${movie.slug}`,
-              image: movie.thumb_url,
-            })) || []
-          }
-        />
-      )}
-
-      {series?.items && series?.items.length > 0 && (
-        <MovieListSchema
-          title="Phim bộ mới hôm nay"
-          movies={
-            series?.items?.map(movie => ({
-              name: movie.name,
-              url: `/phim/${movie.slug}`,
-              image: movie.thumb_url,
-            })) || []
-          }
-        />
-      )}
+      
       <Header />
       <h1 style={{ display: 'none' }}>LoPhim - Phim hay cả lò - Xem Phim Mới HD Online Vietsub</h1>
       <div>

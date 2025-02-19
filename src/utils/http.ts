@@ -1,5 +1,6 @@
 'use server';
 import { revalidateTag } from 'next/cache';
+import { cache } from 'react';
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -23,6 +24,7 @@ export const sendRequest = async <T>(method: 'POST' | 'GET' | 'PUT' | 'PATCH' | 
       method,
       headers: baseHeader,
       // cache: 'force-cache',
+      cache: 'no-store',
       ...nextTags,
       body,
     };

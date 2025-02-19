@@ -3,6 +3,7 @@ import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const movie = await moviesServer.getMoviesByType<IModelPaginate<IMovie>>('phim-moi-cap-nhat', undefined, 1, 20);
+
   // console.log('site map');
   if (movie.status !== 'success') return [];
   const movieSlug = movie.items.map(post => ({
